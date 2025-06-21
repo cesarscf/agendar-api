@@ -2,6 +2,6 @@ import "fastify"
 
 declare module "fastify" {
   export interface FastifyRequest {
-    getCurrentUserId(): Promise<string>
+    getCurrentPartnerId(): Promise<string>
   }
 }

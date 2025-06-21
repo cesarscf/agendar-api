@@ -11,16 +11,9 @@ import {
   validatorCompiler,
 } from "fastify-type-provider-zod"
 
-import { getProfile } from "./routes/auth/get-profile"
-import { loginSendPhoneNumberOTP } from "./routes/auth/login-send-phone-number-otp"
-import { loginVerifyPhoneNumber } from "./routes/auth/login-verify-phone-number"
-import { registerSendPhoneNumberOTP } from "./routes/auth/register-send-phone-number-otp"
-import { registerVerifyPhoneNumber } from "./routes/auth/register-verify-phone-number"
-import { createQuote } from "./routes/quotes/create-quote"
-import { getQuotes } from "./routes/quotes/get-quotes"
-import { createRequest } from "./routes/requests/create-request"
-import { getRequest } from "./routes/requests/get-request"
-import { getRequests } from "./routes/requests/get-requests"
+import { getPartner } from "./routes/auth/get-partner"
+import { login } from "./routes/auth/login"
+import { register } from "./routes/auth/register"
 import { errorHandler } from "./utils/error-handler"
 
 const app = fastify()
@@ -60,18 +53,9 @@ app.register(fastifyJwt, {
 
 app.setErrorHandler(errorHandler)
 
-app.register(loginSendPhoneNumberOTP)
-app.register(loginVerifyPhoneNumber)
-app.register(registerSendPhoneNumberOTP)
-app.register(registerVerifyPhoneNumber)
-app.register(getProfile)
-
-app.register(createRequest)
-app.register(getRequests)
-app.register(getRequest)
-
-app.register(getQuotes)
-app.register(createQuote)
+app.register(login)
+app.register(register)
+app.register(getPartner)
 
 app.listen({ port: env.PORT }).then(() => {
   console.log("HTTP server running!")

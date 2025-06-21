@@ -1,5 +1,5 @@
 import { db } from "@/db"
-import { users } from "@/db/schema"
+import { partners } from "@/db/schema"
 import { auth } from "@/middlewares/auth"
 import { BadRequestError } from "@/routes/_erros/bad-request-error"
 
@@ -8,49 +8,45 @@ import type { FastifyInstance } from "fastify"
 import type { ZodTypeProvider } from "fastify-type-provider-zod"
 import z from "zod"
 
-export async function getProfile(app: FastifyInstance) {
+export async function getPartner(app: FastifyInstance) {
   app
     .withTypeProvider<ZodTypeProvider>()
     .register(auth)
     .get(
-      "/profile",
+      "/partner",
       {
         schema: {
           tags: ["Auth"],
-          summary: "Get authenticated user profile",
+          summary: "Get authenticated partner data",
           security: [{ bearerAuth: [] }],
           response: {
             201: z.object({
-              user: z.object({
+              partner: z.object({
                 id: z.string(),
                 name: z.string(),
-                phone: z.string(),
-                cep: z.string().nullish(),
-                email: z.string().nullish(),
+                email: z.string(),
               }),
             }),
           },
         },
       },
       async (request, reply) => {
-        const userId = await request.getCurrentUserId()
+        const partnerId = await request.getCurrentPartnerId()
 
-        const user = await db.query.users.findFirst({
-          where: eq(users.id, userId),
+        const partner = await db.query.partners.findFirst({
+          where: eq(partners.id, partnerId),
           columns: {
             id: true,
             name: true,
-            phone: true,
-            cep: true,
             email: true,
           },
         })
 
-        if (!user) {
+        if (!partner) {
           throw new BadRequestError("User not found")
         }
 
-        return reply.status(201).send({ user })
+        return reply.status(201).send({ partner })
       }
     )
 }

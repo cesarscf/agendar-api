@@ -1,5 +1,3 @@
-export * from "./users"
+export * from "./partners"
 export * from "./verifications"
-export * from "./customers"
-export * from "./quotes"
-export * from "./requests"
+export * from "./establishments"

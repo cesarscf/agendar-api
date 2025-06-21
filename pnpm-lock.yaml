@@ -23,6 +23,9 @@ importers:
       '@fastify/swagger-ui':
         specifier: 5.2.1
         version: 5.2.1
+      bcrypt:
+        specifier: ^6.0.0
+        version: 6.0.0
       drizzle-orm:
         specifier: 0.39.1
         version: 0.39.1(postgres@3.4.5)
@@ -45,6 +48,9 @@ importers:
       '@biomejs/biome':
         specifier: 1.9.4
         version: 1.9.4
+      '@types/bcrypt':
+        specifier: ^5.0.2
+        version: 5.0.2
       '@types/node':
         specifier: 22.13.0
         version: 22.13.0
@@ -858,6 +864,9 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@types/bcrypt@5.0.2':
+    resolution: {integrity: sha512-6atioO8Y75fNcbmj0G7UjI9lXN2pQ/IGJ2FWT4a/btd0Lk9lQalHLKhkgKVZ3r+spnmWUKfbMi1GEe9wyHQfNQ==}
+
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
 
@@ -909,6 +918,10 @@ packages:
 
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
+
+  bcrypt@6.0.0:
+    resolution: {integrity: sha512-cU8v/EGSrnH+HnxV2z0J7/blxH8gq7Xh2JFT6Aroax7UohdmiJJlxApMxtKfuI7z68NvvVcmR78k2LbT6efhRg==}
+    engines: {node: '>= 18'}
 
   bn.js@4.12.1:
     resolution: {integrity: sha512-k8TVBiPkPJT9uHLdOKfFpqcfprwBFOAAXXozRubr7R7PfIuKvQlzcI4M0pALeqXN09vdaMbUdUj+pass+uULAg==}
@@ -1285,6 +1298,14 @@ packages:
 
   mz@2.7.0:
     resolution: {integrity: sha512-z81GNO7nnYMEhrGh9LeymoE4+Yr0Wn5McHIZMK5cfQCl+NDX08sCZgUc9/6MHni9IWuFLm1Z3HTCXu2z9fN62Q==}
+
+  node-addon-api@8.4.0:
+    resolution: {integrity: sha512-D9DI/gXHvVmjHS08SVch0Em8G5S1P+QWtU31appcKT/8wFSPRcdHadIFSAntdMMVM5zz+/DL+bL/gz3UDppqtg==}
+    engines: {node: ^18 || ^20 || >= 21}
+
+  node-gyp-build@4.8.4:
+    resolution: {integrity: sha512-LA4ZjwlnUblHVgq0oBF3Jl/6h/Nvs5fzBLwdEF4nuxnFdsfajde4WfxtJr3CaiH+F6ewcIB/q4jQ4UzPyid+CQ==}
+    hasBin: true
 
   object-assign@4.1.1:
     resolution: {integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==}
@@ -2090,6 +2111,10 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.34.9':
     optional: true
 
+  '@types/bcrypt@5.0.2':
+    dependencies:
+      '@types/node': 22.13.0
+
   '@types/estree@1.0.6': {}
 
   '@types/node@22.13.0':
@@ -2136,6 +2161,11 @@ snapshots:
       fastq: 1.19.1
 
   balanced-match@1.0.2: {}
+
+  bcrypt@6.0.0:
+    dependencies:
+      node-addon-api: 8.4.0
+      node-gyp-build: 4.8.4
 
   bn.js@4.12.1: {}
 
@@ -2522,6 +2552,10 @@ snapshots:
       any-promise: 1.3.0
       object-assign: 4.1.1
       thenify-all: 1.6.0
+
+  node-addon-api@8.4.0: {}
+
+  node-gyp-build@4.8.4: {}
 
   object-assign@4.1.1: {}
 
