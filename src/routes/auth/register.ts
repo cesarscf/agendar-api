@@ -1,6 +1,7 @@
 import { db } from "@/db"
 import { establishments, partners } from "@/db/schema"
 import { BadRequestError } from "@/routes/_erros/bad-request-error"
+import { generateRandomString } from "@/utils/generate-random-string"
 import { slugify } from "@/utils/slug"
 import bcrypt from "bcrypt"
 import { eq } from "drizzle-orm"
@@ -49,11 +50,13 @@ export async function register(app: FastifyInstance) {
         })
         .returning()
 
+      const randomString = generateRandomString(4)
+
       await db
         .insert(establishments)
         .values({
           name: newPartner.name,
-          slug: slugify(newPartner.name),
+          slug: `${slugify(newPartner.name)}-${randomString}`,
           ownerId: newPartner.id,
         })
         .returning()

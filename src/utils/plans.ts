@@ -1,15 +1,15 @@
-const plans = [
+export const plans = [
   {
     name: "1_profissional",
-    priceId: "price_1p_mensal", 
+    priceId: "price_1p_mensal",
     // Semestral (10% OFF)
-    semestralDiscountPriceId: "price_1p_semestral", 
+    semestralDiscountPriceId: "price_1p_semestral",
     // Anual (20% OFF)
     annualDiscountPriceId: "price_1p_anual",
-    price: 79.90,
+    price: 79.9,
     limits: {
-      professionals: 1
-    }
+      professionals: 1,
+    },
   },
   {
     name: "2_a_7_profissionais",
@@ -18,10 +18,10 @@ const plans = [
     semestralDiscountPriceId: "price_2a7_semestral",
     // Anual (20% OFF)
     annualDiscountPriceId: "price_2a7_anual",
-    price: 99.70,
+    price: 99.7,
     limits: {
-      professionals: 7
-    }
+      professionals: 7,
+    },
   },
   {
     name: "8_a_15_profissionais",
@@ -30,10 +30,10 @@ const plans = [
     semestralDiscountPriceId: "price_8a15_semestral",
     // Anual (20% OFF)
     annualDiscountPriceId: "price_8a15_anual",
-    price: 164.90,
+    price: 164.9,
     limits: {
-      professionals: 15
-    }
+      professionals: 15,
+    },
   },
   {
     name: "acima_de_15_profissionais",
@@ -42,9 +42,9 @@ const plans = [
     semestralDiscountPriceId: "price_15plus_semestral",
     // Anual (20% OFF)
     annualDiscountPriceId: "price_15plus_anual",
-    price: 219.90,
+    price: 219.9,
     limits: {
-      professionals: "unlimited" 
-    }
-  }
-];
+      professionals: "unlimited",
+    },
+  },
+]
