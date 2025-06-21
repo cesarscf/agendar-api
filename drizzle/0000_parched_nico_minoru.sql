@@ -2,7 +2,7 @@ CREATE TABLE "partners" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"name" text NOT NULL,
 	"password" text NOT NULL,
-	"email" text,
+	"email" text NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT current_timestamp,
 	CONSTRAINT "partners_email_unique" UNIQUE("email")
@@ -21,7 +21,7 @@ CREATE TABLE "establishments" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"name" text NOT NULL,
 	"slug" text NOT NULL,
-	"owner_id" text NOT NULL,
+	"owner_id" uuid NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT current_timestamp,
 	CONSTRAINT "establishments_slug_unique" UNIQUE("slug")

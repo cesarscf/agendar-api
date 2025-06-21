@@ -1,1 +1,0 @@
-ALTER TABLE "establishments" ALTER COLUMN "owner_id" SET DATA TYPE uuid;

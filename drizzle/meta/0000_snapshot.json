@@ -1,5 +1,5 @@
 {
-  "id": "e4752ef5-02d8-48e8-a968-8373f1bcd96a",
+  "id": "b4af1941-ba60-4166-8efe-19ef9bcbf99a",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -31,7 +31,7 @@
           "name": "email",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "created_at": {
           "name": "created_at",
@@ -141,7 +141,7 @@
         },
         "owner_id": {
           "name": "owner_id",
-          "type": "text",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         },
