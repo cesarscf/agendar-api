@@ -21,6 +21,11 @@ import { getCategories } from "./routes/categories/get-categories"
 import { updateCategory } from "./routes/categories/update-category"
 import { createEmployee } from "./routes/employees/create-employee"
 
+import { createCustomer } from "./routes/customers/create-customer"
+import { deleteCustomer } from "./routes/customers/delete-customer"
+import { getCustomer } from "./routes/customers/get-customer"
+import { getCustomers } from "./routes/customers/get-customers"
+import { updateCustomer } from "./routes/customers/update-customer"
 import { deleteEmployee } from "./routes/employees/delete-category"
 import { getEmployee } from "./routes/employees/get-employee"
 import { getEmployees } from "./routes/employees/get-employees"
@@ -89,6 +94,12 @@ app.register(getEmployee)
 app.register(updateEmployee)
 app.register(deleteEmployee)
 app.register(createEmployee)
+
+app.register(getCustomers)
+app.register(getCustomer)
+app.register(updateCustomer)
+app.register(deleteCustomer)
+app.register(createCustomer)
 
 app.listen({ port: env.PORT, host: "0.0.0.0" }).then(() => {
   console.log("HTTP server running!")
