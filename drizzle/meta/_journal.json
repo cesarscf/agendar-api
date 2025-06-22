@@ -15,6 +15,13 @@
       "when": 1750559964692,
       "tag": "0001_ambiguous_photon",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1750616744900,
+      "tag": "0002_round_barracuda",
+      "breakpoints": true
     }
   ]
 }

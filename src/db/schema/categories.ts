@@ -6,7 +6,6 @@ import { lifecycleDates } from "./utils"
 export const categories = pgTable("categories", {
   id: uuid("id").notNull().primaryKey().defaultRandom(),
   name: text("name").notNull(),
-
   establishmentId: uuid("establishment_id")
     .notNull()
     .references(() => establishments.id, { onDelete: "cascade" }),
