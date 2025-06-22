@@ -15,6 +15,8 @@ import { createAppointmentUsingPackage } from "@/routes/appointments/use-package
 import { getPartner } from "./routes/auth/get-partner"
 import { login } from "./routes/auth/login"
 import { register } from "./routes/auth/register"
+import { deleteCategory } from "./routes/categories/delete-category"
+import { getCategories } from "./routes/categories/get-categories"
 import { updateCategory } from "./routes/categories/update-category"
 import { errorHandler } from "./utils/error-handler"
 
@@ -70,7 +72,9 @@ app.register(getPartner)
 
 app.register(createAppointmentUsingPackage)
 
+app.register(getCategories)
 app.register(updateCategory)
+app.register(deleteCategory)
 
 app.listen({ port: env.PORT, host: "0.0.0.0" }).then(() => {
   console.log("HTTP server running!")

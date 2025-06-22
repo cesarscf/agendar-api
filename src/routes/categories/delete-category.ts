@@ -7,7 +7,7 @@ import type { ZodTypeProvider } from "fastify-type-provider-zod"
 import z from "zod"
 import { BadRequestError } from "../_erros/bad-request-error"
 
-export async function updateCategory(app: FastifyInstance) {
+export async function deleteCategory(app: FastifyInstance) {
   app
     .withTypeProvider<ZodTypeProvider>()
     .register(auth)
