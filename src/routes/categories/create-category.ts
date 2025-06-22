@@ -1,6 +1,8 @@
 import { db } from "@/db"
 import { categories } from "@/db/schema"
 import { auth } from "@/middlewares/auth"
+import { categorySchema } from "@/utils/schemas/categories"
+import { establishmentHeaderSchema } from "@/utils/schemas/headers"
 import { and, eq } from "drizzle-orm"
 import type { FastifyInstance } from "fastify"
 import type { ZodTypeProvider } from "fastify-type-provider-zod"
@@ -18,12 +20,8 @@ export async function createCategory(app: FastifyInstance) {
           tags: ["Category"],
           summary: "Create category",
           security: [{ bearerAuth: [] }],
-          headers: z.object({
-            "x-establishment-id": z.string(),
-          }),
-          body: z.object({
-            name: z.string(),
-          }),
+          headers: establishmentHeaderSchema,
+          body: categorySchema.omit({ id: true }),
           response: {
             204: z.null(),
           },

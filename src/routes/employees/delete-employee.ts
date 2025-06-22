@@ -1,6 +1,7 @@
 import { db } from "@/db"
 import { categories, employees } from "@/db/schema"
 import { auth } from "@/middlewares/auth"
+import { establishmentHeaderSchema } from "@/utils/schemas/headers"
 import { and, eq } from "drizzle-orm"
 import type { FastifyInstance } from "fastify"
 import type { ZodTypeProvider } from "fastify-type-provider-zod"
@@ -18,9 +19,7 @@ export async function deleteEmployee(app: FastifyInstance) {
           tags: ["Employee"],
           summary: "Delete employee",
           security: [{ bearerAuth: [] }],
-          headers: z.object({
-            "x-establishment-id": z.string(),
-          }),
+          headers: establishmentHeaderSchema,
           params: z.object({
             id: z.string().uuid(),
           }),

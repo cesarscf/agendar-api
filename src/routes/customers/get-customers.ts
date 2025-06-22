@@ -1,6 +1,8 @@
 import { db } from "@/db"
 import { customers } from "@/db/schema"
 import { auth } from "@/middlewares/auth"
+import { customerSchema } from "@/utils/schemas/customers"
+import { establishmentHeaderSchema } from "@/utils/schemas/headers"
 import { eq } from "drizzle-orm"
 import type { FastifyInstance } from "fastify"
 import type { ZodTypeProvider } from "fastify-type-provider-zod"
@@ -17,22 +19,9 @@ export async function getCustomers(app: FastifyInstance) {
           tags: ["Customer"],
           summary: "Get establishment customers",
           security: [{ bearerAuth: [] }],
-          headers: z.object({
-            "x-establishment-id": z.string(),
-          }),
+          headers: establishmentHeaderSchema,
           response: {
-            201: z.array(
-              z.object({
-                id: z.string().uuid(),
-                name: z.string(),
-                phoneNumber: z.string(),
-                email: z.string().email().nullable(),
-                address: z.string().nullable(),
-                birthDate: z.date().nullable(),
-                cpf: z.string().nullable(),
-                notes: z.string().nullable(),
-              })
-            ),
+            201: z.array(customerSchema),
           },
         },
       },

@@ -1,6 +1,8 @@
 import { db } from "@/db"
 import { customers } from "@/db/schema"
 import { auth } from "@/middlewares/auth"
+import { customerSchema } from "@/utils/schemas/customers"
+import { establishmentHeaderSchema } from "@/utils/schemas/headers"
 import {} from "drizzle-orm"
 import type { FastifyInstance } from "fastify"
 import type { ZodTypeProvider } from "fastify-type-provider-zod"
@@ -17,18 +19,8 @@ export async function createCustomer(app: FastifyInstance) {
           tags: ["Customer"],
           summary: "Create customer",
           security: [{ bearerAuth: [] }],
-          headers: z.object({
-            "x-establishment-id": z.string(),
-          }),
-          body: z.object({
-            name: z.string(),
-            phoneNumber: z.string(),
-            birthDate: z.coerce.date(),
-            email: z.string().email().nullable(),
-            address: z.string().nullable(),
-            cpf: z.string().nullable(),
-            notes: z.string().nullable(),
-          }),
+          headers: establishmentHeaderSchema,
+          body: customerSchema.omit({ id: true }),
           response: {
             204: z.null(),
           },

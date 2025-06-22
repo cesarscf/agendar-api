@@ -1,6 +1,8 @@
 import { db } from "@/db"
 import { employees } from "@/db/schema"
 import { auth } from "@/middlewares/auth"
+import { employeeSchema } from "@/utils/schemas/employees"
+import { establishmentHeaderSchema } from "@/utils/schemas/headers"
 import { eq } from "drizzle-orm"
 import type { FastifyInstance } from "fastify"
 import type { ZodTypeProvider } from "fastify-type-provider-zod"
@@ -17,25 +19,12 @@ export async function getEmployees(app: FastifyInstance) {
           tags: ["Employee"],
           summary: "Get establishment employees",
           security: [{ bearerAuth: [] }],
-          headers: z.object({
-            "x-establishment-id": z.string(),
-          }),
+          headers: establishmentHeaderSchema,
           params: z.object({
             id: z.string().uuid(),
           }),
           response: {
-            201: z.array(
-              z.object({
-                id: z.string().uuid(),
-                name: z.string(),
-                email: z.string().email().nullable(),
-                createdAt: z.date(),
-                address: z.string().nullable(),
-                active: z.boolean(),
-                image: z.string().nullable(),
-                phone: z.string().nullable(),
-              })
-            ),
+            201: z.array(employeeSchema),
           },
         },
       },
