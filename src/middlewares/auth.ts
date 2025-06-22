@@ -23,7 +23,7 @@ export const auth = fastifyPlugin(async (app: FastifyInstance) => {
 
     request.getCurrentEstablishmentId = async () => {
       const partnerId = await request.getCurrentPartnerId()
-      const establishmentId = request.headers["establishment-id"] as string
+      const establishmentId = request.headers["x-establishment-id"] as string
 
       if (!establishmentId) {
         throw new BadRequestError(

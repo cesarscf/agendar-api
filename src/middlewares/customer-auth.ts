@@ -24,7 +24,7 @@ export const customerAuth = fastifyPlugin(async (app: FastifyInstance) => {
       if (!customerId) {
         throw new ForbiddenError("Customer Not Found")
       }
-      const establishmentId = request.headers["establishment-id"] as string
+      const establishmentId = request.headers["x-establishment-id"] as string
       if (!establishmentId) {
         throw new BadRequestError(
           "Missing or invalid x-establishment-id header"

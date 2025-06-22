@@ -15,6 +15,7 @@ import { createAppointmentUsingPackage } from "@/routes/appointments/use-package
 import { getPartner } from "./routes/auth/get-partner"
 import { login } from "./routes/auth/login"
 import { register } from "./routes/auth/register"
+import { updateCategory } from "./routes/categories/update-category"
 import { errorHandler } from "./utils/error-handler"
 
 const app = fastify({
@@ -66,7 +67,10 @@ app.setErrorHandler(errorHandler)
 app.register(login)
 app.register(register)
 app.register(getPartner)
+
 app.register(createAppointmentUsingPackage)
+
+app.register(updateCategory)
 
 app.listen({ port: env.PORT, host: "0.0.0.0" }).then(() => {
   console.log("HTTP server running!")
