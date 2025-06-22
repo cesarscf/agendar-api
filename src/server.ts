@@ -30,6 +30,11 @@ import { deleteEmployee } from "./routes/employees/delete-employee"
 import { getEmployee } from "./routes/employees/get-employee"
 import { getEmployees } from "./routes/employees/get-employees"
 import { updateEmployee } from "./routes/employees/update-employee"
+import { createPackage } from "./routes/packages/create-package"
+import { deletePackage } from "./routes/packages/delete-package"
+import { getPackage } from "./routes/packages/get-package"
+import { getPackages } from "./routes/packages/get-packages"
+import { updatePackage } from "./routes/packages/update-package"
 import { errorHandler } from "./utils/error-handler"
 
 const app = fastify({
@@ -100,6 +105,12 @@ app.register(getCustomer)
 app.register(updateCustomer)
 app.register(deleteCustomer)
 app.register(createCustomer)
+
+app.register(getPackages)
+app.register(getPackage)
+app.register(updatePackage)
+app.register(deletePackage)
+app.register(createPackage)
 
 app.listen({ port: env.PORT, host: "0.0.0.0" }).then(() => {
   console.log("HTTP server running!")

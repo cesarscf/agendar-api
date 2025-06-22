@@ -27,7 +27,7 @@ export async function createAppointmentUsingPackage(app: FastifyInstance) {
       "/appointments/use-package",
       {
         schema: {
-          tags: ["Appointments"],
+          tags: ["Appointment"],
           summary: "Create appointment using service package",
           body: createAppointmentSchema,
           response: {
