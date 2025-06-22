@@ -1,5 +1,6 @@
 import { relations } from "drizzle-orm"
 import { pgTable, text, uuid } from "drizzle-orm/pg-core"
+import { categories } from "./categories"
 import { partners } from "./partners"
 import { lifecycleDates } from "./utils"
 
@@ -15,13 +16,17 @@ export const establishments = pgTable("establishments", {
   ...lifecycleDates,
 })
 
-export const establishmentsRelations = relations(establishments, ({ one }) => ({
-  establishmentPartners: one(partners, {
-    fields: [establishments.ownerId],
-    references: [partners.id],
-    relationName: "partnerEstablishments",
-  }),
-}))
+export const establishmentsRelations = relations(
+  establishments,
+  ({ one, many }) => ({
+    establishmentPartners: one(partners, {
+      fields: [establishments.ownerId],
+      references: [partners.id],
+      relationName: "partnerEstablishments",
+    }),
+    categories: many(categories, { relationName: "establishmentCategories" }),
+  })
+)
 
 export type Establishment = typeof establishments.$inferSelect
 export type NewEstablishment = typeof establishments.$inferInsert
