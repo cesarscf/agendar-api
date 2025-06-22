@@ -4,10 +4,10 @@
 
 ### ✅ Autenticação e Recuperação de Senha (Dono do estabalecimento / Parceiro)
 
-- [ ] Cadastro de parceiros
-- [ ] Login de parceiros
+- [x] Cadastro de parceiros
+- [x] Login de parceiros
 - [ ] Recuperação de senha via email
-- [ ] Criar um estabelecimento padrão ao primeiro login
+- [x] Criar um estabelecimento padrão ao primeiro login
 
 ---
 
