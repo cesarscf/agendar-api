@@ -11,21 +11,18 @@ export async function updateCategory(app: FastifyInstance) {
   app
     .withTypeProvider<ZodTypeProvider>()
     .register(auth)
-    .post(
+    .delete(
       "/categories/:id",
       {
         schema: {
           tags: ["Category"],
-          summary: "Update category",
+          summary: "Delete category",
           security: [{ bearerAuth: [] }],
           headers: z.object({
             "x-establishment-id": z.string(),
           }),
           params: z.object({
             id: z.string().uuid(),
-          }),
-          body: z.object({
-            name: z.string(),
           }),
           response: {
             204: z.null(),
@@ -36,7 +33,6 @@ export async function updateCategory(app: FastifyInstance) {
         const { establishmentId } = await request.getCurrentEstablishmentId()
 
         const { id: categoryId } = request.params
-        const { name } = request.body
 
         const category = await db.query.categories.findFirst({
           where: and(
@@ -54,10 +50,7 @@ export async function updateCategory(app: FastifyInstance) {
         }
 
         await db
-          .update(categories)
-          .set({
-            name,
-          })
+          .delete(categories)
           .where(
             and(
               eq(categories.id, categoryId),
