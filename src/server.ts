@@ -35,6 +35,11 @@ import { deletePackage } from "./routes/packages/delete-package"
 import { getPackage } from "./routes/packages/get-package"
 import { getPackages } from "./routes/packages/get-packages"
 import { updatePackage } from "./routes/packages/update-package"
+import { createService } from "./routes/services/create-services"
+import { deleteService } from "./routes/services/delete-service"
+import { getService } from "./routes/services/get-service"
+import { getServices } from "./routes/services/get-services"
+import { updateService } from "./routes/services/update-service"
 import { errorHandler } from "./utils/error-handler"
 
 const app = fastify({
@@ -111,6 +116,12 @@ app.register(getPackage)
 app.register(updatePackage)
 app.register(deletePackage)
 app.register(createPackage)
+
+app.register(getService)
+app.register(getServices)
+app.register(updateService)
+app.register(deleteService)
+app.register(createService)
 
 app.listen({ port: env.PORT, host: "0.0.0.0" }).then(() => {
   console.log("HTTP server running!")
