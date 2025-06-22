@@ -1,3 +1,5 @@
+import { employees } from "@/db/schema/employees"
+import { packages } from "@/db/schema/packages"
 import { relations } from "drizzle-orm"
 import { pgTable, text, uuid } from "drizzle-orm/pg-core"
 import { categories } from "./categories"
@@ -24,7 +26,11 @@ export const establishmentsRelations = relations(
       references: [partners.id],
       relationName: "partnerEstablishments",
     }),
+    servicePackages: many(packages, {
+      relationName: "establishmentServicePackages",
+    }),
     categories: many(categories, { relationName: "establishmentCategories" }),
+    employees: many(employees, { relationName: "establishmentEmployees" }),
   })
 )
 
