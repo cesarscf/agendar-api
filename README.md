@@ -34,7 +34,7 @@
 ### 🛠️ Gestão de Serviços
 
 - [ ] Criar serviço
-- [ ] Listar serviços
+- [!] Listar serviços
 - [ ] Editar serviço
 - [ ] Excluir serviço
 - [ ] Ativar serviço
