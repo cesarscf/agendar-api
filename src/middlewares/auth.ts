@@ -20,7 +20,7 @@ export const auth = fastifyPlugin(async (app: FastifyInstance) => {
 
     request.getCurrentEstablishmentId = async () => {
       try {
-        const partnerId = (await request.getCurrentPartnerId()) as string
+        const partnerId = await request.getCurrentPartnerId()
         const establishmentId = request.headers["establishment-id"] as string
 
         if (!establishmentId) {
