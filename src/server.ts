@@ -19,6 +19,12 @@ import { createCategory } from "./routes/categories/create-category"
 import { deleteCategory } from "./routes/categories/delete-category"
 import { getCategories } from "./routes/categories/get-categories"
 import { updateCategory } from "./routes/categories/update-category"
+import { createEmployee } from "./routes/employees/create-employee"
+
+import { deleteEmployee } from "./routes/employees/delete-category"
+import { getEmployee } from "./routes/employees/get-employee"
+import { getEmployees } from "./routes/employees/get-employees"
+import { updateEmployee } from "./routes/employees/update-employee"
 import { errorHandler } from "./utils/error-handler"
 
 const app = fastify({
@@ -77,6 +83,12 @@ app.register(getCategories)
 app.register(updateCategory)
 app.register(deleteCategory)
 app.register(createCategory)
+
+app.register(getEmployees)
+app.register(getEmployee)
+app.register(updateEmployee)
+app.register(deleteEmployee)
+app.register(createEmployee)
 
 app.listen({ port: env.PORT, host: "0.0.0.0" }).then(() => {
   console.log("HTTP server running!")
