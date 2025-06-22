@@ -7,22 +7,19 @@ import type { ZodTypeProvider } from "fastify-type-provider-zod"
 import z from "zod"
 import { BadRequestError } from "../_erros/bad-request-error"
 
-export async function updateCategory(app: FastifyInstance) {
+export async function createCategory(app: FastifyInstance) {
   app
     .withTypeProvider<ZodTypeProvider>()
     .register(auth)
-    .put(
-      "/categories/:id",
+    .post(
+      "/categories",
       {
         schema: {
           tags: ["Category"],
-          summary: "Update category",
+          summary: "Create category",
           security: [{ bearerAuth: [] }],
           headers: z.object({
             "x-establishment-id": z.string(),
-          }),
-          params: z.object({
-            id: z.string().uuid(),
           }),
           body: z.object({
             name: z.string(),
@@ -35,13 +32,12 @@ export async function updateCategory(app: FastifyInstance) {
       async (request, reply) => {
         const { establishmentId } = await request.getCurrentEstablishmentId()
 
-        const { id: categoryId } = request.params
         const { name } = request.body
 
-        const category = await db.query.categories.findFirst({
+        const categoryWithSameName = await db.query.categories.findFirst({
           where: and(
             eq(categories.establishmentId, establishmentId),
-            eq(categories.id, categoryId)
+            eq(categories.name, name)
           ),
           columns: {
             id: true,
@@ -49,21 +45,14 @@ export async function updateCategory(app: FastifyInstance) {
           },
         })
 
-        if (!category) {
-          throw new BadRequestError("Category not found")
+        if (categoryWithSameName) {
+          throw new BadRequestError("A category with this name already exists.")
         }
 
-        await db
-          .update(categories)
-          .set({
-            name,
-          })
-          .where(
-            and(
-              eq(categories.id, categoryId),
-              eq(categories.establishmentId, establishmentId)
-            )
-          )
+        await db.insert(categories).values({
+          name,
+          establishmentId,
+        })
 
         return reply.status(204).send()
       }
