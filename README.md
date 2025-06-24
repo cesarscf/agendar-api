@@ -216,9 +216,9 @@
 | Acima de 15 profissionais | 219,90 | 197,91              | 175,92          |
 
 #### Funcionalidades de Plano:
-
+- [x] Crud dos planos  
 - [ ] Criar gestão de planos ativos por estabelecimento
-- [ ] Criar lógica de limite de usuários/profissionais por plano
-- [ ] Implementar controle de período de trial (7 dias grátis)
-- [ ] Implementar cobrança e faturamento
+- [!] Criar lógica de limite de usuários/profissionais por plano
+- [x] Implementar controle de período de trial (7 dias grátis)
+- [!] Implementar cobrança e faturamento
 - [ ] Criar tela para upgrade/downgrade de plano
