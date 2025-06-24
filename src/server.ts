@@ -12,6 +12,7 @@ import {
 } from "fastify-type-provider-zod"
 
 import { createAppointmentUsingPackage } from "@/routes/appointments/use-package"
+import { planRoutes } from "@/routes/plans"
 import { getPartner } from "./routes/auth/get-partner"
 import { login } from "./routes/auth/login"
 import { register } from "./routes/auth/register"
@@ -19,13 +20,12 @@ import { createCategory } from "./routes/categories/create-category"
 import { deleteCategory } from "./routes/categories/delete-category"
 import { getCategories } from "./routes/categories/get-categories"
 import { updateCategory } from "./routes/categories/update-category"
-import { createEmployee } from "./routes/employees/create-employee"
-
 import { createCustomer } from "./routes/customers/create-customer"
 import { deleteCustomer } from "./routes/customers/delete-customer"
 import { getCustomer } from "./routes/customers/get-customer"
 import { getCustomers } from "./routes/customers/get-customers"
 import { updateCustomer } from "./routes/customers/update-customer"
+import { createEmployee } from "./routes/employees/create-employee"
 import { deleteEmployee } from "./routes/employees/delete-employee"
 import { getEmployee } from "./routes/employees/get-employee"
 import { getEmployees } from "./routes/employees/get-employees"
@@ -122,6 +122,7 @@ app.register(getServices)
 app.register(updateService)
 app.register(deleteService)
 app.register(createService)
+app.register(planRoutes)
 
 app.listen({ port: env.PORT, host: "0.0.0.0" }).then(() => {
   console.log("HTTP server running!")
