@@ -163,8 +163,8 @@
 - [ ] Atualizar banner da loja
 - [ ] Atualizar texto "Sobre nós"
 - [ ] Atualizar tema da loja (exemplo: "blue", "green", etc)
-- [ ] Atualizar horário de funcionamento (Exemplo: Domingo - 08:00 às 18:00)
-- [ ] Atualizar intervalos de funcionamento (Exemplo: Domingo - 12:00 às 13:00)
+- [x] Atualizar horário de funcionamento (Exemplo: Domingo - 08:00 às 18:00)
+- [x] Atualizar intervalos de funcionamento (Exemplo: Domingo - 12:00 às 13:00)
 
 ---
 
@@ -190,7 +190,7 @@
 
 #### Continuação dos fluxos:
 
-- [ ] Listar horários disponíveis a partir da data enviada
+- [x] Listar horários disponíveis a partir da data enviada
 - [ ] Verificar cadastro do cliente a partir do número de telefone
 - [ ] Verificar se o cliente possui pacote ativo (verificar com base no serviço e cliente)
 - [ ] Realizar o agendamento

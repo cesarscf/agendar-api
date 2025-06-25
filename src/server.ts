@@ -11,7 +11,7 @@ import {
   validatorCompiler,
 } from "fastify-type-provider-zod"
 
-import { createAppointmentUsingPackage } from "@/routes/appointments/use-package"
+import { appointments } from "@/routes/appointments"
 import { customersRoutes } from "@/routes/customers"
 import { employeeBlocksRoutes } from "@/routes/employee-blocks"
 import { availabilityRoutes } from "@/routes/establishment-availability"
@@ -90,8 +90,7 @@ app.register(login)
 app.register(register)
 app.register(getPartner)
 
-app.register(createAppointmentUsingPackage)
-
+app.register(appointments)
 app.register(getCategories)
 app.register(updateCategory)
 app.register(deleteCategory)
