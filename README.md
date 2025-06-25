@@ -193,6 +193,7 @@
 - [x] Listar horários disponíveis a partir da data enviada
 - [ ] Verificar cadastro do cliente a partir do número de telefone
 - [ ] Verificar se o cliente possui pacote ativo (verificar com base no serviço e cliente)
+- [x] Criar agendamento
 - [ ] Realizar o agendamento
 
 ---
