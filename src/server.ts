@@ -11,7 +11,10 @@ import {
   validatorCompiler,
 } from "fastify-type-provider-zod"
 
-import { createAppointmentUsingPackage } from "@/routes/appointments/use-package"
+import { appointments } from "@/routes/appointments"
+import { customersRoutes } from "@/routes/customers"
+import { employeeBlocksRoutes } from "@/routes/employee-blocks"
+import { availabilityRoutes } from "@/routes/establishment-availability"
 import { planRoutes } from "@/routes/plans"
 import { getPartner } from "./routes/auth/get-partner"
 import { login } from "./routes/auth/login"
@@ -20,11 +23,6 @@ import { createCategory } from "./routes/categories/create-category"
 import { deleteCategory } from "./routes/categories/delete-category"
 import { getCategories } from "./routes/categories/get-categories"
 import { updateCategory } from "./routes/categories/update-category"
-import { createCustomer } from "./routes/customers/create-customer"
-import { deleteCustomer } from "./routes/customers/delete-customer"
-import { getCustomer } from "./routes/customers/get-customer"
-import { getCustomers } from "./routes/customers/get-customers"
-import { updateCustomer } from "./routes/customers/update-customer"
 import { createEmployee } from "./routes/employees/create-employee"
 import { deleteEmployee } from "./routes/employees/delete-employee"
 import { getEmployee } from "./routes/employees/get-employee"
@@ -92,8 +90,7 @@ app.register(login)
 app.register(register)
 app.register(getPartner)
 
-app.register(createAppointmentUsingPackage)
-
+app.register(appointments)
 app.register(getCategories)
 app.register(updateCategory)
 app.register(deleteCategory)
@@ -104,12 +101,6 @@ app.register(getEmployee)
 app.register(updateEmployee)
 app.register(deleteEmployee)
 app.register(createEmployee)
-
-app.register(getCustomers)
-app.register(getCustomer)
-app.register(updateCustomer)
-app.register(deleteCustomer)
-app.register(createCustomer)
 
 app.register(getPackages)
 app.register(getPackage)
@@ -123,7 +114,9 @@ app.register(updateService)
 app.register(deleteService)
 app.register(createService)
 app.register(planRoutes)
-
+app.register(availabilityRoutes)
+app.register(employeeBlocksRoutes)
+app.register(customersRoutes)
 app.listen({ port: env.PORT, host: "0.0.0.0" }).then(() => {
   console.log("HTTP server running!")
 })

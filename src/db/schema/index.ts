@@ -20,3 +20,6 @@ export { CustomerServicePackageUsages } from "@/db/schema/customer-service-packa
 export { customerServicePackageUsagesRelations } from "@/db/schema/customer-service-packages-usages"
 export { customerServicePackageUsages } from "@/db/schema/customer-service-packages-usages"
 export { plans } from "@/db/schema/plans"
+export { establishmentAvailability } from "@/db/schema/establishment-availability"
+export { employeeTimeBlocks } from "@/db/schema/employee-time-blocks"
+export { employeeRecurringBlocks } from "@/db/schema/employee-recurring-blocks"
