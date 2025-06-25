@@ -1,0 +1,48 @@
+import { db } from "@/db"
+import { employees } from "@/db/schema"
+import { auth } from "@/middlewares/auth"
+import { employeeSchema } from "@/utils/schemas/employees"
+import { establishmentHeaderSchema } from "@/utils/schemas/headers"
+import { eq } from "drizzle-orm"
+import type { FastifyInstance } from "fastify"
+import type { ZodTypeProvider } from "fastify-type-provider-zod"
+import z from "zod"
+
+export async function getEmployees(app: FastifyInstance) {
+  app
+    .withTypeProvider<ZodTypeProvider>()
+    .register(auth)
+    .get(
+      "/employees",
+      {
+        schema: {
+          tags: ["Employee"],
+          summary: "Get establishment employees",
+          security: [{ bearerAuth: [] }],
+          headers: establishmentHeaderSchema,
+          response: {
+            201: z.array(employeeSchema),
+          },
+        },
+      },
+      async (request, reply) => {
+        const { establishmentId } = await request.getCurrentEstablishmentId()
+
+        const result = await db.query.employees.findMany({
+          where: eq(employees.establishmentId, establishmentId),
+          columns: {
+            id: true,
+            name: true,
+            email: true,
+            createdAt: true,
+            address: true,
+            active: true,
+            image: true,
+            phone: true,
+          },
+        })
+
+        return reply.status(201).send(result)
+      }
+    )
+}

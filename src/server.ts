@@ -12,9 +12,32 @@ import {
 } from "fastify-type-provider-zod"
 
 import { createAppointmentUsingPackage } from "@/routes/appointments/use-package"
+import { customersRoutes } from "@/routes/customers"
+import { employeeBlocksRoutes } from "@/routes/employee-blocks"
+import { availabilityRoutes } from "@/routes/establishment-availability"
+import { planRoutes } from "@/routes/plans"
 import { getPartner } from "./routes/auth/get-partner"
 import { login } from "./routes/auth/login"
 import { register } from "./routes/auth/register"
+import { createCategory } from "./routes/categories/create-category"
+import { deleteCategory } from "./routes/categories/delete-category"
+import { getCategories } from "./routes/categories/get-categories"
+import { updateCategory } from "./routes/categories/update-category"
+import { createEmployee } from "./routes/employees/create-employee"
+import { deleteEmployee } from "./routes/employees/delete-employee"
+import { getEmployee } from "./routes/employees/get-employee"
+import { getEmployees } from "./routes/employees/get-employees"
+import { updateEmployee } from "./routes/employees/update-employee"
+import { createPackage } from "./routes/packages/create-package"
+import { deletePackage } from "./routes/packages/delete-package"
+import { getPackage } from "./routes/packages/get-package"
+import { getPackages } from "./routes/packages/get-packages"
+import { updatePackage } from "./routes/packages/update-package"
+import { createService } from "./routes/services/create-services"
+import { deleteService } from "./routes/services/delete-service"
+import { getService } from "./routes/services/get-service"
+import { getServices } from "./routes/services/get-services"
+import { updateService } from "./routes/services/update-service"
 import { errorHandler } from "./utils/error-handler"
 
 const app = fastify({
@@ -66,8 +89,35 @@ app.setErrorHandler(errorHandler)
 app.register(login)
 app.register(register)
 app.register(getPartner)
+
 app.register(createAppointmentUsingPackage)
 
+app.register(getCategories)
+app.register(updateCategory)
+app.register(deleteCategory)
+app.register(createCategory)
+
+app.register(getEmployees)
+app.register(getEmployee)
+app.register(updateEmployee)
+app.register(deleteEmployee)
+app.register(createEmployee)
+
+app.register(getPackages)
+app.register(getPackage)
+app.register(updatePackage)
+app.register(deletePackage)
+app.register(createPackage)
+
+app.register(getService)
+app.register(getServices)
+app.register(updateService)
+app.register(deleteService)
+app.register(createService)
+app.register(planRoutes)
+app.register(availabilityRoutes)
+app.register(employeeBlocksRoutes)
+app.register(customersRoutes)
 app.listen({ port: env.PORT, host: "0.0.0.0" }).then(() => {
   console.log("HTTP server running!")
 })

@@ -1,8 +1,8 @@
-import {relations} from "drizzle-orm";
-import {customerServicePackages} from "@/db/schema/customer-service-packages";
-import {services} from "@/db/schema/services";
-import {appointments} from "@/db/schema/appointments";
-import {pgTable, timestamp, uuid} from "drizzle-orm/pg-core";
+import { appointments } from "@/db/schema/appointments"
+import { customerServicePackages } from "@/db/schema/customer-service-packages"
+import { services } from "@/db/schema/services"
+import { relations } from "drizzle-orm"
+import { pgTable, timestamp, uuid } from "drizzle-orm/pg-core"
 
 export const customerServicePackageUsages = pgTable(
   "customer_service_package_usages",

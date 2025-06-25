@@ -33,10 +33,10 @@
 
 ### 🛠️ Gestão de Serviços
 
-- [ ] Criar serviço
-- [!] Listar serviços
-- [ ] Editar serviço
-- [ ] Excluir serviço
+- [x] Criar serviço
+- [x] Listar serviços
+- [x] Editar serviço
+- [x] Excluir serviço
 - [ ] Ativar serviço
 - [ ] Desativar serviço
 
@@ -54,10 +54,10 @@
 
 ### 🗂️ Gestão de Categorias
 
-- [ ] Criar categoria
-- [ ] Listar categorias
-- [ ] Editar categoria
-- [ ] Excluir categoria
+- [x] Criar categoria
+- [x] Listar categorias
+- [x] Editar categoria
+- [x] Excluir categoria
 
 **Campo:**
 
@@ -69,10 +69,10 @@
 
 ### 👥 Gestão de Profissionais
 
-- [ ] Criar profissional
-- [ ] Listar profissionais
-- [ ] Editar profissional
-- [ ] Excluir profissional
+- [x] Criar profissional
+- [x] Listar profissionais
+- [x] Editar profissional
+- [x] Excluir profissional
 - [ ] Ativar profissional
 - [ ] Desativar profissional
 
@@ -90,10 +90,10 @@
 
 ### 👤 Gestão de Clientes
 
-- [ ] Criar cliente
-- [ ] Listar clientes
-- [ ] Editar cliente
-- [ ] Excluir cliente
+- [x] Criar cliente
+- [x] Listar clientes
+- [x] Editar cliente
+- [x] Excluir cliente
 - [ ] Listar pacotes do cliente
 - [ ] Excluir pacote de cliente
 - [ ] Listar histórico de agendamentos do cliente
@@ -111,7 +111,6 @@
 
 ### 🎁 Plano de Fidelidade
 
-- [ ] Criar plano de fidelidade
 - [ ] Listar planos de fidelidade
 - [ ] Editar plano de fidelidade
 - [ ] Excluir plano de fidelidade
@@ -131,10 +130,10 @@
 
 ### 📦 Pacotes de Serviços
 
-- [ ] Criar pacote
-- [ ] Listar pacotes
-- [ ] Editar pacote
-- [ ] Excluir pacote
+- [x] Criar pacote
+- [x] Listar pacotes
+- [x] Editar pacote
+- [x] Excluir pacote
 - [ ] Ativar pacote
 - [ ] Desativar pacote
 
@@ -217,9 +216,9 @@
 | Acima de 15 profissionais | 219,90 | 197,91              | 175,92          |
 
 #### Funcionalidades de Plano:
-
+- [x] Crud dos planos  
 - [ ] Criar gestão de planos ativos por estabelecimento
-- [ ] Criar lógica de limite de usuários/profissionais por plano
-- [ ] Implementar controle de período de trial (7 dias grátis)
-- [ ] Implementar cobrança e faturamento
+- [!] Criar lógica de limite de usuários/profissionais por plano
+- [x] Implementar controle de período de trial (7 dias grátis)
+- [!] Implementar cobrança e faturamento
 - [ ] Criar tela para upgrade/downgrade de plano

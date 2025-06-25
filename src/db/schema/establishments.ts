@@ -10,7 +10,6 @@ export const establishments = pgTable("establishments", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: text("name").notNull(),
   slug: text("slug").notNull().unique(),
-
   ownerId: uuid("owner_id")
     .notNull()
     .references(() => partners.id, { onDelete: "cascade" }),

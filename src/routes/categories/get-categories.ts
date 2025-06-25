@@ -1,6 +1,8 @@
 import { db } from "@/db"
 import { categories } from "@/db/schema"
 import { auth } from "@/middlewares/auth"
+import { categorySchema } from "@/utils/schemas/categories"
+import { establishmentHeaderSchema } from "@/utils/schemas/headers"
 import { eq } from "drizzle-orm"
 import type { FastifyInstance } from "fastify"
 import type { ZodTypeProvider } from "fastify-type-provider-zod"
@@ -17,13 +19,9 @@ export async function getCategories(app: FastifyInstance) {
           tags: ["Category"],
           summary: "Get establishment categories",
           security: [{ bearerAuth: [] }],
+          headers: establishmentHeaderSchema,
           response: {
-            201: z.array(
-              z.object({
-                id: z.string(),
-                name: z.string(),
-              })
-            ),
+            201: z.array(categorySchema),
           },
         },
       },

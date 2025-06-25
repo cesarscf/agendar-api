@@ -27,7 +27,7 @@ export async function createAppointmentUsingPackage(app: FastifyInstance) {
       "/appointments/use-package",
       {
         schema: {
-          tags: ["Appointments"],
+          tags: ["Appointment"],
           summary: "Create appointment using service package",
           body: createAppointmentSchema,
           response: {
@@ -62,7 +62,10 @@ export async function createAppointmentUsingPackage(app: FastifyInstance) {
         if (!employeeService) {
           throw new Error("Serviço não encontrado para o funcionário")
         }
-        const endTime = addMinutes(hour, employeeService.service.duration)
+        const endTime = addMinutes(
+          hour,
+          employeeService.service.durationInMinutes
+        )
         const conflictingAppointments = await db.query.appointments.findMany({
           where: and(
             employeeId ? eq(appointments.employeeId, employeeId) : undefined,
