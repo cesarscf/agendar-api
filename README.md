@@ -111,11 +111,11 @@
 
 ### 🎁 Plano de Fidelidade
 
-- [ ] Listar planos de fidelidade
-- [ ] Editar plano de fidelidade
-- [ ] Excluir plano de fidelidade
-- [ ] Ativar plano
-- [ ] Desativar plano
+- [x] Listar planos de fidelidade
+- [x] Editar plano de fidelidade
+- [x] Excluir plano de fidelidade
+- [x] Ativar plano
+- [x] Desativar plano
 
 **Campos:**
 
@@ -218,8 +218,8 @@
 
 #### Funcionalidades de Plano:
 - [x] Crud dos planos  
-- [ ] Criar gestão de planos ativos por estabelecimento
+- [x] Criar gestão de planos ativos por estabelecimento
 - [!] Criar lógica de limite de usuários/profissionais por plano
 - [x] Implementar controle de período de trial (7 dias grátis)
-- [!] Implementar cobrança e faturamento
+- [x] Implementar cobrança e faturamento
 - [ ] Criar tela para upgrade/downgrade de plano
