@@ -16,6 +16,7 @@ export async function getEmployeeBlocks(app: FastifyInstance) {
         schema: {
           tags: ["Employee Blocks"],
           summary: "Get future time blocks for employee",
+          security: [{ bearerAuth: [] }],
           params: z.object({
             id: z.string().uuid(),
           }),

@@ -11,14 +11,18 @@ import {
   validatorCompiler,
 } from "fastify-type-provider-zod"
 
+import { adminRoutes } from "@/routes/admin"
+import { adminLogin } from "@/routes/admin/login"
 import { appointments } from "@/routes/appointments"
 import { customersRoutes } from "@/routes/customers"
 import { employeeBlocksRoutes } from "@/routes/employee-blocks"
 import { availabilityRoutes } from "@/routes/establishment-availability"
+import { createPartner } from "@/routes/partner/create-partner"
+import { getPartner } from "@/routes/partner/get-partner"
+import { login } from "@/routes/partner/login"
 import { planRoutes } from "@/routes/plans"
-import { getPartner } from "./routes/auth/get-partner"
-import { login } from "./routes/auth/login"
-import { register } from "./routes/auth/register"
+import { subscriptionRoutes } from "@/routes/subscription"
+import { paymentMethodRoutes } from "src/routes/payment-method"
 import { createCategory } from "./routes/categories/create-category"
 import { deleteCategory } from "./routes/categories/delete-category"
 import { getCategories } from "./routes/categories/get-categories"
@@ -87,7 +91,7 @@ app.register(fastifyJwt, {
 app.setErrorHandler(errorHandler)
 
 app.register(login)
-app.register(register)
+app.register(createPartner)
 app.register(getPartner)
 
 app.register(appointments)
@@ -107,7 +111,6 @@ app.register(getPackage)
 app.register(updatePackage)
 app.register(deletePackage)
 app.register(createPackage)
-
 app.register(getService)
 app.register(getServices)
 app.register(updateService)
@@ -117,6 +120,10 @@ app.register(planRoutes)
 app.register(availabilityRoutes)
 app.register(employeeBlocksRoutes)
 app.register(customersRoutes)
+app.register(subscriptionRoutes)
+app.register(paymentMethodRoutes)
+app.register(adminLogin)
+app.register(adminRoutes, { prefix: "/admin" })
 app.listen({ port: env.PORT, host: "0.0.0.0" }).then(() => {
   console.log("HTTP server running!")
 })

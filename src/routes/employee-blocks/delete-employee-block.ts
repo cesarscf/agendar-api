@@ -16,6 +16,7 @@ export async function deleteEmployeeBlock(app: FastifyInstance) {
         schema: {
           tags: ["Employee Blocks"],
           summary: "Delete employee time block",
+          security: [{ bearerAuth: [] }],
           params: z.object({
             blockId: z.string().uuid(),
           }),

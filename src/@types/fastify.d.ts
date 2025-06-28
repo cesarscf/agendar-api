@@ -12,5 +12,19 @@ declare module "fastify" {
       establishmentId: string
       customerId: string
     }>
+    getActiveSubscription(): {
+      status: string
+      id: string
+      createdAt: Date
+      updatedAt: Date | null
+      partnerId: string
+      planId: string
+      integrationSubscriptionId: string
+      currentPeriodEnd: Date
+      endedAt: Date | null
+      changedFromSubscriptionId: string | null
+    }
+    getCurrentAdminId(): string
+    getCurrentAdminRole(): string | null
   }
 }
