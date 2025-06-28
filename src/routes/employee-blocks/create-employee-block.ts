@@ -14,6 +14,7 @@ export async function createEmployeeBlock(app: FastifyInstance) {
       "/employees/:id/blocks",
       {
         schema: {
+          security: [{ bearerAuth: [] }],
           tags: ["Employee Blocks"],
           summary: "Create time block for employee",
           params: z.object({

@@ -1,6 +1,7 @@
 import { db } from "@/db"
 import { employees } from "@/db/schema"
 import { auth } from "@/middlewares/auth"
+import { requireActiveSubscription } from "@/middlewares/require-active-subscription"
 import { employeeSchema } from "@/utils/schemas/employees"
 import { establishmentHeaderSchema } from "@/utils/schemas/headers"
 import {} from "drizzle-orm"
@@ -12,6 +13,7 @@ export async function createEmployee(app: FastifyInstance) {
   app
     .withTypeProvider<ZodTypeProvider>()
     .register(auth)
+    .register(requireActiveSubscription)
     .post(
       "/employees",
       {

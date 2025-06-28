@@ -16,6 +16,7 @@ export async function deleteEmployeeRecurringBlock(app: FastifyInstance) {
         schema: {
           tags: ["Employee Recurring Blocks"],
           summary: "Delete recurring employee time block",
+          security: [{ bearerAuth: [] }],
           params: z.object({
             blockId: z.string().uuid(),
           }),

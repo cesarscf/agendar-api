@@ -1,3 +1,4 @@
+import { stripe } from "@/clients/stripe"
 import { db } from "@/db"
 import { establishments, partners } from "@/db/schema"
 import { BadRequestError } from "@/routes/_erros/bad-request-error"
@@ -9,7 +10,7 @@ import type { FastifyInstance } from "fastify"
 import type { ZodTypeProvider } from "fastify-type-provider-zod"
 import z from "zod"
 
-export async function register(app: FastifyInstance) {
+export async function createPartner(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
     "/register",
     {
@@ -39,11 +40,17 @@ export async function register(app: FastifyInstance) {
         throw new BadRequestError("Usuário não encontrado")
       }
 
+      const customerPayment = await stripe.customers.create({
+        email: email,
+        name: name,
+      })
+
       const hashedPassword = await bcrypt.hash(password, 1)
 
       const [newPartner] = await db
         .insert(partners)
         .values({
+          integrationPaymentId: customerPayment.id,
           name,
           password: hashedPassword,
           email,
@@ -55,7 +62,7 @@ export async function register(app: FastifyInstance) {
       await db
         .insert(establishments)
         .values({
-          name: newPartner.name,
+          name: `My First Establishment-${randomString}`,
           slug: `${slugify(newPartner.name)}-${randomString}`,
           ownerId: newPartner.id,
         })
