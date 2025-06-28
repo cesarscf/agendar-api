@@ -1,17 +1,17 @@
 import { db } from "@/db"
 import { plans } from "@/db/schema"
-import { eq } from "drizzle-orm"
 import type { FastifyInstance } from "fastify"
 import type { ZodTypeProvider } from "fastify-type-provider-zod"
 import z from "zod"
 
-export async function listActivePlans(app: FastifyInstance) {
+export async function listPlans(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().get(
     "/plans",
     {
       schema: {
         tags: ["Plan"],
-        summary: "List all active plans",
+        summary: "List all plans",
+        security: [{ bearerAuth: [] }],
         response: {
           200: z.array(
             z.object({
@@ -30,11 +30,7 @@ export async function listActivePlans(app: FastifyInstance) {
       },
     },
     async (_request, reply) => {
-      const activePlans = await db
-        .select()
-        .from(plans)
-        .where(eq(plans.status, "active"))
-
+      const activePlans = await db.select().from(plans)
       return reply.send(activePlans)
     }
   )

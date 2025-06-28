@@ -16,6 +16,7 @@ export async function getAvailability(app: FastifyInstance) {
         schema: {
           tags: ["Availability"],
           summary: "Get availability by establishment",
+          security: [{ bearerAuth: [] }],
           response: {
             200: z.array(
               z.object({

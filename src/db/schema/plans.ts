@@ -1,4 +1,6 @@
+import { subscriptions } from "@/db/schema/subscriptions"
 import { lifecycleDates } from "@/db/schema/utils"
+import { relations } from "drizzle-orm"
 import { decimal, integer, pgTable, text, uuid } from "drizzle-orm/pg-core"
 
 export const plans = pgTable("plans", {
@@ -19,6 +21,12 @@ export const plans = pgTable("plans", {
   status: text("status").notNull().default("inactive"),
   ...lifecycleDates,
 })
+
+export const plansRelations = relations(plans, ({ many }) => ({
+  subscriptions: many(subscriptions, {
+    relationName: "subscriptionsPlan",
+  }),
+}))
 
 export type Plans = typeof plans.$inferSelect
 export type NewPlans = typeof plans.$inferInsert

@@ -16,6 +16,7 @@ export async function updateAvailability(app: FastifyInstance) {
         schema: {
           tags: ["Availability"],
           summary: "Update specific availability",
+          security: [{ bearerAuth: [] }],
           params: z.object({
             id: z.string().uuid(),
           }),

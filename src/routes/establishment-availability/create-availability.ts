@@ -32,6 +32,7 @@ export async function createAvailability(app: FastifyInstance) {
         schema: {
           tags: ["Availability"],
           summary: "Create or replace availability",
+          security: [{ bearerAuth: [] }],
           body: availabilitySchema,
           response: {
             204: z.null(),

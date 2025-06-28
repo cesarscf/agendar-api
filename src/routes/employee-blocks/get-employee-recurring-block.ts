@@ -16,6 +16,7 @@ export async function getEmployeeRecurringBlocks(app: FastifyInstance) {
         schema: {
           tags: ["Employee Recurring Blocks"],
           summary: "Get recurring weekly time blocks for employee",
+          security: [{ bearerAuth: [] }],
           params: z.object({ id: z.string().uuid() }),
           response: {
             200: z.array(

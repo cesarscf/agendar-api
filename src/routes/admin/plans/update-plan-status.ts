@@ -12,6 +12,7 @@ export async function updatePlanStatus(app: FastifyInstance) {
     {
       schema: {
         tags: ["Plan"],
+        security: [{ bearerAuth: [] }],
         summary: "Update plan status",
         params: z.object({
           id: z.string().uuid(),
