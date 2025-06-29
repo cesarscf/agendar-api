@@ -1,7 +1,6 @@
 import { db } from "@/db"
-import { categories, employees } from "@/db/schema"
+import { packages } from "@/db/schema"
 import { auth } from "@/middlewares/auth"
-import { requireActiveSubscription } from "@/middlewares/require-active-subscription"
 import { establishmentHeaderSchema } from "@/utils/schemas/headers"
 import { and, eq } from "drizzle-orm"
 import type { FastifyInstance } from "fastify"
@@ -9,28 +8,23 @@ import type { ZodTypeProvider } from "fastify-type-provider-zod"
 import z from "zod"
 import { BadRequestError } from "../_erros/bad-request-error"
 
-export async function updateEmployee(app: FastifyInstance) {
+export async function UpdatePackageStatus(app: FastifyInstance) {
   app
     .withTypeProvider<ZodTypeProvider>()
     .register(auth)
-    .register(requireActiveSubscription)
-    .put(
-      "/employees/:id",
+    .patch(
+      "/packages/:id",
       {
         schema: {
-          tags: ["Employee"],
-          summary: "Update employee",
+          tags: ["Package"],
+          summary: "Update package status",
           security: [{ bearerAuth: [] }],
           headers: establishmentHeaderSchema,
           params: z.object({
             id: z.string().uuid(),
           }),
           body: z.object({
-            name: z.string().optional(),
-            email: z.string().email().optional(),
-            phone: z.string().optional(),
-            address: z.string().optional(),
-            avatarUrl: z.string().optional(),
+            active: z.boolean(),
           }),
           response: {
             204: z.null(),
@@ -40,33 +34,32 @@ export async function updateEmployee(app: FastifyInstance) {
       async (request, reply) => {
         const { establishmentId } = await request.getCurrentEstablishmentId()
 
-        const { id: employeeId } = request.params
-        const { name } = request.body
+        const { id: packageId } = request.params
+        const data = request.body
 
-        const employee = await db.query.employees.findFirst({
+        const packageExists = await db.query.packages.findFirst({
           where: and(
-            eq(categories.establishmentId, establishmentId),
-            eq(employees.id, employeeId)
+            eq(packages.establishmentId, establishmentId),
+            eq(packages.id, packageId)
           ),
           columns: {
             id: true,
-            name: true,
           },
         })
 
-        if (!employee) {
-          throw new BadRequestError("Employee not found")
+        if (!packageExists) {
+          throw new BadRequestError("Package not found")
         }
 
         await db
-          .update(employees)
+          .update(packages)
           .set({
-            name,
+            active: data.active,
           })
           .where(
             and(
-              eq(employees.id, employeeId),
-              eq(employees.establishmentId, establishmentId)
+              eq(packages.id, packageId),
+              eq(packages.establishmentId, establishmentId)
             )
           )
 

@@ -15,33 +15,24 @@ import { adminRoutes } from "@/routes/admin"
 import { adminLogin } from "@/routes/admin/login"
 import { appointments } from "@/routes/appointments"
 import { customersRoutes } from "@/routes/customers"
+import { dashboardRoutes } from "@/routes/dashboard"
 import { employeeBlocksRoutes } from "@/routes/employee-blocks"
+import { employeesRoutes } from "@/routes/employees"
 import { availabilityRoutes } from "@/routes/establishment-availability"
+import { establishmentsRoutes } from "@/routes/establishments"
+import { packagesRoutes } from "@/routes/packages"
 import { createPartner } from "@/routes/partner/create-partner"
 import { getPartner } from "@/routes/partner/get-partner"
 import { login } from "@/routes/partner/login"
 import { planRoutes } from "@/routes/plans"
+import { publicRoutes } from "@/routes/public"
+import { servicesRoutes } from "@/routes/services"
 import { subscriptionRoutes } from "@/routes/subscription"
 import { paymentMethodRoutes } from "src/routes/payment-method"
 import { createCategory } from "./routes/categories/create-category"
 import { deleteCategory } from "./routes/categories/delete-category"
 import { getCategories } from "./routes/categories/get-categories"
 import { updateCategory } from "./routes/categories/update-category"
-import { createEmployee } from "./routes/employees/create-employee"
-import { deleteEmployee } from "./routes/employees/delete-employee"
-import { getEmployee } from "./routes/employees/get-employee"
-import { getEmployees } from "./routes/employees/get-employees"
-import { updateEmployee } from "./routes/employees/update-employee"
-import { createPackage } from "./routes/packages/create-package"
-import { deletePackage } from "./routes/packages/delete-package"
-import { getPackage } from "./routes/packages/get-package"
-import { getPackages } from "./routes/packages/get-packages"
-import { updatePackage } from "./routes/packages/update-package"
-import { createService } from "./routes/services/create-services"
-import { deleteService } from "./routes/services/delete-service"
-import { getService } from "./routes/services/get-service"
-import { getServices } from "./routes/services/get-services"
-import { updateService } from "./routes/services/update-service"
 import { errorHandler } from "./utils/error-handler"
 
 const app = fastify({
@@ -99,24 +90,10 @@ app.register(getCategories)
 app.register(updateCategory)
 app.register(deleteCategory)
 app.register(createCategory)
-
-app.register(getEmployees)
-app.register(getEmployee)
-app.register(updateEmployee)
-app.register(deleteEmployee)
-app.register(createEmployee)
-
-app.register(getPackages)
-app.register(getPackage)
-app.register(updatePackage)
-app.register(deletePackage)
-app.register(createPackage)
-app.register(getService)
-app.register(getServices)
-app.register(updateService)
-app.register(deleteService)
-app.register(createService)
+app.register(employeesRoutes)
+app.register(packagesRoutes)
 app.register(planRoutes)
+app.register(servicesRoutes)
 app.register(availabilityRoutes)
 app.register(employeeBlocksRoutes)
 app.register(customersRoutes)
@@ -124,6 +101,15 @@ app.register(subscriptionRoutes)
 app.register(paymentMethodRoutes)
 app.register(adminLogin)
 app.register(adminRoutes, { prefix: "/admin" })
+app.register(publicRoutes, { prefix: "/public" })
+app.register(dashboardRoutes)
+app.register(establishmentsRoutes)
+app.get("/health", async () => {
+  return { message: "OK" }
+})
+app.get("/", async () => {
+  return { message: "Hello World" }
+})
 app.listen({ port: env.PORT, host: "0.0.0.0" }).then(() => {
   console.log("HTTP server running!")
 })
