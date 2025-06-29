@@ -8,11 +8,21 @@ import { lifecycleDates } from "./utils"
 
 export const establishments = pgTable("establishments", {
   id: uuid("id").defaultRandom().primaryKey(),
-  name: text("name").notNull(),
-  slug: text("slug").notNull().unique(),
   ownerId: uuid("owner_id")
     .notNull()
     .references(() => partners.id, { onDelete: "cascade" }),
+  name: text("name").notNull(),
+  theme: text("theme").notNull().default("blue"),
+  about: text("about"),
+  slug: text("slug").notNull(),
+  logoUrl: text("logoUrl"),
+  bannerUrl: text("bannerUrl"),
+  phone: text("phone"),
+  servicesPerformed: text("services_performed"),
+  activeCustomers: text("active_customers"),
+  experienceTime: text("experience_time"),
+  googleMapsLink: text("google_maps_link"),
+  address: text("address"),
 
   ...lifecycleDates,
 })

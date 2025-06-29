@@ -14,11 +14,15 @@ import {
   uuid,
 } from "drizzle-orm/pg-core"
 
-export const appointmentStatusEnum = pgEnum("appointment_status", [
+export const appointmentStatusValues = [
   "scheduled",
   "completed",
   "canceled",
-])
+] as const
+export const appointmentStatusEnum = pgEnum(
+  "appointment_status",
+  appointmentStatusValues
+)
 
 export const paymentTypeEnum = pgEnum("payment_type", [
   "pix",

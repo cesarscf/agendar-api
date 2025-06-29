@@ -13,21 +13,21 @@
 
 ### 📊 Dashboard de Agendamentos
 
-- [ ] Listagem de todos os agendamentos
-- [ ] Filtrar agendamentos por período
-- [ ] Filtrar agendamentos por status
-- [ ] Filtrar agendamentos por profissional
-- [ ] Filtrar agendamentos por serviço
-- [ ] Implementar paginação de resultados
+- [x] Listagem de todos os agendamentos
+- [x] Filtrar agendamentos por período
+- [x] Filtrar agendamentos por status
+- [x] Filtrar agendamentos por profissional
+- [x] Filtrar agendamentos por serviço
+- [x] Implementar paginação de resultados
 
 ---
 
 ### 🌐 Página Pública da Loja (via Slug)
 
-- [ ] Listagem de serviços
-- [ ] Listagem de profissionais
-- [ ] Listagem de pacotes
-- [ ] Exibir informações da loja (nome, banner, logo, etc)
+- [x] Listagem de serviços
+- [x] Listagem de profissionais
+- [x] Listagem de pacotes
+- [x] Exibir informações da loja (nome, banner, logo, etc)
 
 ---
 
@@ -37,8 +37,8 @@
 - [x] Listar serviços
 - [x] Editar serviço
 - [x] Excluir serviço
-- [ ] Ativar serviço
-- [ ] Desativar serviço
+- [x] Ativar serviço
+- [x] Desativar serviço
 
 **Campos obrigatórios:**
 
@@ -73,8 +73,8 @@
 - [x] Listar profissionais
 - [x] Editar profissional
 - [x] Excluir profissional
-- [ ] Ativar profissional
-- [ ] Desativar profissional
+- [x] Ativar profissional
+- [x] Desativar profissional
 
 **Campos obrigatórios:**
 
@@ -94,9 +94,9 @@
 - [x] Listar clientes
 - [x] Editar cliente
 - [x] Excluir cliente
-- [ ] Listar pacotes do cliente
+- [x] Listar pacotes do cliente
 - [ ] Excluir pacote de cliente
-- [ ] Listar histórico de agendamentos do cliente
+- [x] Listar histórico de agendamentos do cliente
 
 **Campos obrigatórios:**
 
@@ -111,11 +111,11 @@
 
 ### 🎁 Plano de Fidelidade
 
-- [ ] Listar planos de fidelidade
-- [ ] Editar plano de fidelidade
-- [ ] Excluir plano de fidelidade
-- [ ] Ativar plano
-- [ ] Desativar plano
+- [x] Listar planos de fidelidade
+- [x] Editar plano de fidelidade
+- [x] Excluir plano de fidelidade
+- [x] Ativar plano
+- [x] Desativar plano
 
 **Campos:**
 
@@ -134,8 +134,8 @@
 - [x] Listar pacotes
 - [x] Editar pacote
 - [x] Excluir pacote
-- [ ] Ativar pacote
-- [ ] Desativar pacote
+- [x] Ativar pacote
+- [x] Desativar pacote
 
 **Campos:**
 
@@ -151,18 +151,18 @@
 
 ### 🏪 Configurações do Estabelecimento
 
-- [ ] Atualizar nome da loja
-- [ ] Atualizar slug
-- [ ] Atualizar telefone
-- [ ] Atualizar link do Google Maps
-- [ ] Atualizar endereço
-- [ ] Atualizar lista de serviços feitos
-- [ ] Atualizar lista de usuários ativos
-- [ ] Atualizar tempo de XP
-- [ ] Atualizar logo da loja
-- [ ] Atualizar banner da loja
-- [ ] Atualizar texto "Sobre nós"
-- [ ] Atualizar tema da loja (exemplo: "blue", "green", etc)
+- [x] Atualizar nome da loja
+- [x] Atualizar slug
+- [x] Atualizar telefone
+- [x] Atualizar link do Google Maps
+- [x] Atualizar endereço
+- [x] Atualizar lista de serviços feitos
+- [x] Atualizar lista de usuários ativos
+- [x] Atualizar tempo de XP
+- [x] Atualizar logo da loja
+- [x] Atualizar banner da loja
+- [x] Atualizar texto "Sobre nós"
+- [x] Atualizar tema da loja (exemplo: "blue", "green", etc)
 - [x] Atualizar horário de funcionamento (Exemplo: Domingo - 08:00 às 18:00)
 - [x] Atualizar intervalos de funcionamento (Exemplo: Domingo - 12:00 às 13:00)
 
@@ -182,17 +182,17 @@
 
 #### Fluxo a partir do serviço:
 
-- [ ] Listar profissionais que realizam o serviço
+- [x] Listar profissionais que realizam o serviço
 
 #### Fluxo a partir do profissional:
 
-- [ ] Listar serviços que o profissional realiza
+- [x] Listar serviços que o profissional realiza
 
 #### Continuação dos fluxos:
 
 - [x] Listar horários disponíveis a partir da data enviada
-- [ ] Verificar cadastro do cliente a partir do número de telefone
-- [ ] Verificar se o cliente possui pacote ativo (verificar com base no serviço e cliente)
+- [x] Verificar cadastro do cliente a partir do número de telefone
+- [x] Verificar se o cliente possui pacote ativo (verificar com base no serviço e cliente)
 - [x] Criar agendamento
 - [ ] Realizar o agendamento
 
@@ -218,8 +218,8 @@
 
 #### Funcionalidades de Plano:
 - [x] Crud dos planos  
-- [ ] Criar gestão de planos ativos por estabelecimento
+- [x] Criar gestão de planos ativos por estabelecimento
 - [!] Criar lógica de limite de usuários/profissionais por plano
 - [x] Implementar controle de período de trial (7 dias grátis)
-- [!] Implementar cobrança e faturamento
+- [x] Implementar cobrança e faturamento
 - [ ] Criar tela para upgrade/downgrade de plano

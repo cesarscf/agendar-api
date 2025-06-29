@@ -9,7 +9,7 @@ export async function listPlans(app: FastifyInstance) {
     "/plans",
     {
       schema: {
-        tags: ["Plan"],
+        tags: ["Admin"],
         summary: "List all plans",
         security: [{ bearerAuth: [] }],
         response: {

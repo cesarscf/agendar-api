@@ -39,7 +39,8 @@ export async function getEmployees(app: FastifyInstance) {
             createdAt: true,
             address: true,
             active: true,
-            image: true,
+            avatarUrl: true,
+            biography: true,
             phone: true,
           },
         })
