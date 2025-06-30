@@ -14,7 +14,7 @@ export async function deleteAvailability(app: FastifyInstance) {
       "/availability/:id",
       {
         schema: {
-          tags: ["Availability"],
+          tags: ["Establishment"],
           summary: "Delete availability by ID",
           security: [{ bearerAuth: [] }],
           params: z.object({

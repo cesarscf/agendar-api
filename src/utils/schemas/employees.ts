@@ -7,6 +7,7 @@ export const employeeSchema = z.object({
   createdAt: z.date(),
   address: z.string().nullable(),
   active: z.boolean(),
-  image: z.string().nullable(),
+  avatarUrl: z.string().nullable(),
   phone: z.string().nullable(),
+  biography: z.string().nullable(),
 })

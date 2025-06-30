@@ -14,7 +14,8 @@ export const employees = pgTable("employees", {
   email: text("email"),
   phone: text("phone"),
   address: text("address"),
-  image: text("image"),
+  avatarUrl: text("avatarUrl"),
+  biography: text("biography"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 })
 

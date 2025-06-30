@@ -20,7 +20,7 @@ export async function createPlan(app: FastifyInstance) {
     "/plans",
     {
       schema: {
-        tags: ["Plan"],
+        tags: ["Admin"],
         summary: "Create plan",
         security: [{ bearerAuth: [] }],
         body: createPlanSchema,

@@ -7,6 +7,7 @@ const envSchema = z.object({
   STRIPE_SECRET_KEY: z.string(),
   APP_URL: z.string(),
   STRIPE_WEBHOOK_SECRET: z.string(),
+  NODE_ENV: z.string(),
 })
 
 export const env = envSchema.parse(process.env)
