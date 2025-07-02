@@ -68,6 +68,7 @@ export async function getPartner(app: FastifyInstance) {
                 endedAt: true,
                 createdAt: true,
               },
+              orderBy: (subs, { desc }) => [desc(subs.createdAt)],
             },
           },
         })
