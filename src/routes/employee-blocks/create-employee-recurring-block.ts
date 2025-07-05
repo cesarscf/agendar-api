@@ -1,6 +1,7 @@
 import { db } from "@/db"
 import { employeeRecurringBlocks } from "@/db/schema"
 import { auth } from "@/middlewares/auth"
+import { establishmentHeaderSchema } from "@/utils/schemas/headers"
 import { and, eq, gt, lt } from "drizzle-orm"
 import type { FastifyInstance } from "fastify"
 import type { ZodTypeProvider } from "fastify-type-provider-zod"
@@ -17,6 +18,7 @@ export async function createEmployeeRecurringBlock(app: FastifyInstance) {
           tags: ["Employee Recurring Blocks"],
           summary: "Create recurring weekly time block for employee",
           security: [{ bearerAuth: [] }],
+          headers: establishmentHeaderSchema,
           params: z.object({ id: z.string().uuid() }),
           body: z.object({
             weekday: z.number().int().min(0).max(6),
