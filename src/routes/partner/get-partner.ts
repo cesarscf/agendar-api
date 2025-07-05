@@ -1,7 +1,7 @@
 import { db } from "@/db"
 import { partners } from "@/db/schema"
 import { auth } from "@/middlewares/auth"
-import { BadRequestError } from "@/routes/_erros/bad-request-error"
+import { BadRequestError } from "@/routes/erros/bad-request-error"
 import { establishmentHeaderSchema } from "@/utils/schemas/headers"
 import { eq } from "drizzle-orm"
 import type { FastifyInstance } from "fastify"

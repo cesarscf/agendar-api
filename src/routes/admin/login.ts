@@ -1,6 +1,6 @@
 import { db } from "@/db"
 import { admins } from "@/db/schema/admins"
-import { UnauthorizedError } from "@/routes/_erros/unauthorized-error"
+import { UnauthorizedError } from "@/routes/erros/unauthorized-error"
 import bcrypt from "bcrypt"
 import { eq } from "drizzle-orm"
 import type { FastifyInstance } from "fastify"
