@@ -1,5 +1,5 @@
 import { db } from "@/db"
-import { loyaltyServices } from "@/db/schema/loyalty-services"
+import { loyaltyPointRules } from "@/db/schema"
 import { services } from "@/db/schema/services"
 import { auth } from "@/middlewares/auth"
 import { requireActiveSubscription } from "@/middlewares/require-active-subscription"
@@ -42,11 +42,11 @@ export async function listLoyaltyProgramServices(app: FastifyInstance) {
           .select({
             serviceId: services.id,
             name: services.name,
-            points: loyaltyServices.points,
+            points: loyaltyPointRules.points,
           })
-          .from(loyaltyServices)
-          .innerJoin(services, eq(loyaltyServices.serviceId, services.id))
-          .where(eq(loyaltyServices.loyaltyProgramId, programId))
+          .from(loyaltyPointRules)
+          .innerJoin(services, eq(loyaltyPointRules.serviceId, services.id))
+          .where(eq(loyaltyPointRules.loyaltyProgramId, programId))
 
         return reply.status(200).send(result)
       }

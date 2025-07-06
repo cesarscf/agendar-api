@@ -11,7 +11,7 @@ export * from "./services"
 export * from "./services-categories"
 export * from "./customer-loyalty-points"
 export * from "./loyalty-programs"
-export * from "./loyalty-services"
+export * from "./loyalty-point-rules"
 
 export {
   NewCustomerServicePackages,

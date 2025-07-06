@@ -1,5 +1,5 @@
 import { db } from "@/db"
-import { loyaltyServices } from "@/db/schema"
+import { loyaltyPointRules } from "@/db/schema"
 import { appointmentStatusValues, appointments } from "@/db/schema/appointments"
 import { customerLoyaltyPoints } from "@/db/schema/customer-loyalty-points"
 import { auth } from "@/middlewares/auth"
@@ -60,11 +60,11 @@ export async function updateAppointmentStatus(app: FastifyInstance) {
         if (status === "completed" && appointment.paymentType !== "loyalty") {
           const [loyaltyService] = await db
             .select({
-              programId: loyaltyServices.loyaltyProgramId,
-              points: loyaltyServices.points,
+              programId: loyaltyPointRules.loyaltyProgramId,
+              points: loyaltyPointRules.points,
             })
-            .from(loyaltyServices)
-            .where(eq(loyaltyServices.serviceId, appointment.serviceId))
+            .from(loyaltyPointRules)
+            .where(eq(loyaltyPointRules.serviceId, appointment.serviceId))
 
           if (loyaltyService) {
             const { programId, points } = loyaltyService
@@ -98,9 +98,9 @@ export async function updateAppointmentStatus(app: FastifyInstance) {
 
         if (status === "completed" && appointment.paymentType === "loyalty") {
           const programIds = await db
-            .selectDistinctOn([loyaltyServices.loyaltyProgramId])
-            .from(loyaltyServices)
-            .where(eq(loyaltyServices.serviceId, appointment.serviceId))
+            .selectDistinctOn([loyaltyPointRules.loyaltyProgramId])
+            .from(loyaltyPointRules)
+            .where(eq(loyaltyPointRules.serviceId, appointment.serviceId))
 
           for (const { loyaltyProgramId } of programIds) {
             await db

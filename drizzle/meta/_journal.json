@@ -85,6 +85,13 @@
       "when": 1751840052629,
       "tag": "0011_steady_joshua_kane",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1751842970652,
+      "tag": "0012_freezing_prism",
+      "breakpoints": true
     }
   ]
 }

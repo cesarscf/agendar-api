@@ -1,6 +1,5 @@
 import { db } from "@/db"
-import { loyaltyPrograms } from "@/db/schema"
-import { loyaltyServices } from "@/db/schema/loyalty-services"
+import { loyaltyPointRules, loyaltyPrograms } from "@/db/schema"
 import { auth } from "@/middlewares/auth"
 import { requireActiveSubscription } from "@/middlewares/require-active-subscription"
 import { and, eq } from "drizzle-orm"
@@ -63,10 +62,10 @@ export async function addLoyaltyServices(app: FastifyInstance) {
         )
 
         await db
-          .delete(loyaltyServices)
-          .where(eq(loyaltyServices.loyaltyProgramId, programId))
+          .delete(loyaltyPointRules)
+          .where(eq(loyaltyPointRules.loyaltyProgramId, programId))
 
-        await db.insert(loyaltyServices).values(
+        await db.insert(loyaltyPointRules).values(
           uniqueServices.map(s => ({
             loyaltyProgramId: programId,
             serviceId: s.serviceId,

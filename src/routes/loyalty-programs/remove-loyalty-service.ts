@@ -1,5 +1,5 @@
 import { db } from "@/db"
-import { loyaltyServices } from "@/db/schema/loyalty-services"
+import { loyaltyPointRules } from "@/db/schema"
 import { auth } from "@/middlewares/auth"
 import { requireActiveSubscription } from "@/middlewares/require-active-subscription"
 import { and, eq } from "drizzle-orm"
@@ -32,11 +32,11 @@ export async function removeLoyaltyService(app: FastifyInstance) {
         const { programId, serviceId } = request.params
 
         await db
-          .delete(loyaltyServices)
+          .delete(loyaltyPointRules)
           .where(
             and(
-              eq(loyaltyServices.loyaltyProgramId, programId),
-              eq(loyaltyServices.serviceId, serviceId)
+              eq(loyaltyPointRules.loyaltyProgramId, programId),
+              eq(loyaltyPointRules.serviceId, serviceId)
             )
           )
 

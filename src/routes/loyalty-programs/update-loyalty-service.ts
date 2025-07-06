@@ -1,5 +1,5 @@
 import { db } from "@/db"
-import { loyaltyServices } from "@/db/schema/loyalty-services"
+import { loyaltyPointRules } from "@/db/schema"
 import { auth } from "@/middlewares/auth"
 import { requireActiveSubscription } from "@/middlewares/require-active-subscription"
 import { and, eq } from "drizzle-orm"
@@ -36,12 +36,12 @@ export async function updateLoyaltyService(app: FastifyInstance) {
         const { points } = request.body
 
         await db
-          .update(loyaltyServices)
+          .update(loyaltyPointRules)
           .set({ points })
           .where(
             and(
-              eq(loyaltyServices.loyaltyProgramId, programId),
-              eq(loyaltyServices.serviceId, serviceId)
+              eq(loyaltyPointRules.loyaltyProgramId, programId),
+              eq(loyaltyPointRules.serviceId, serviceId)
             )
           )
 

@@ -1,8 +1,8 @@
 import { db } from "@/db"
 import {
   customerLoyaltyPoints,
+  loyaltyPointRules,
   loyaltyPrograms,
-  loyaltyServices,
 } from "@/db/schema"
 import { customerAuth } from "@/middlewares/customer-auth"
 import { and, eq } from "drizzle-orm"
@@ -46,10 +46,10 @@ export async function getLoyaltyByEstablishmentAndService(
           return reply.send({ accumulatedPoints: 0, servicePoints: null })
         }
 
-        const service = await db.query.loyaltyServices.findFirst({
+        const service = await db.query.loyaltyPointRules.findFirst({
           where: and(
-            eq(loyaltyServices.loyaltyProgramId, loyaltyProgram.id),
-            eq(loyaltyServices.serviceId, serviceId)
+            eq(loyaltyPointRules.loyaltyProgramId, loyaltyProgram.id),
+            eq(loyaltyPointRules.serviceId, serviceId)
           ),
         })
 
