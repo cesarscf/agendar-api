@@ -20,6 +20,7 @@ import { employeeBlocksRoutes } from "@/routes/employee-blocks"
 import { employeesRoutes } from "@/routes/employees"
 import { availabilityRoutes } from "@/routes/establishment-availability"
 import { establishmentsRoutes } from "@/routes/establishments"
+import { loyaltyProgramsRoutes } from "@/routes/loyalty-programs"
 import { packagesRoutes } from "@/routes/packages"
 import { createPartner } from "@/routes/partner/create-partner"
 import { getPartner } from "@/routes/partner/get-partner"
@@ -111,6 +112,7 @@ app.register(adminRoutes, { prefix: "/admin" })
 app.register(publicRoutes, { prefix: "/public" })
 app.register(dashboardRoutes)
 app.register(establishmentsRoutes)
+app.register(loyaltyProgramsRoutes)
 app.get("/health", async () => {
   return { message: "OK" }
 })

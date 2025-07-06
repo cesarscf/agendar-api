@@ -9,6 +9,10 @@ export * from "./customers"
 export * from "./packages"
 export * from "./services"
 export * from "./services-categories"
+export * from "./customer-loyalty-points"
+export * from "./loyalty-programs"
+export * from "./loyalty-services"
+
 export {
   NewCustomerServicePackages,
   customerServicePackagesRelations,
@@ -68,3 +72,11 @@ export {
 } from "@/db/schema/partner-payment-methods"
 
 export { admins, Admin, NewAdmin } from "@/db/schema/admins"
+export {
+  loyaltyPointRules,
+  loyaltyPointRulesRelations,
+} from "@/db/schema/loyalty-point-rules"
+export {
+  loyaltyPrograms,
+  loyaltyProgramsRelations,
+} from "@/db/schema/loyalty-programs"
