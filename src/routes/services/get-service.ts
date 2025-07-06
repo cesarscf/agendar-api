@@ -7,7 +7,6 @@ import { and, eq } from "drizzle-orm"
 import type { FastifyInstance } from "fastify"
 import type { ZodTypeProvider } from "fastify-type-provider-zod"
 import z from "zod"
-import { BadRequestError } from "../erros/bad-request-error"
 
 export async function getService(app: FastifyInstance) {
   app
@@ -25,7 +24,8 @@ export async function getService(app: FastifyInstance) {
             id: z.string().uuid(),
           }),
           response: {
-            201: serviceSchema,
+            200: serviceSchema,
+            404: z.object({ message: z.string() }),
           },
         },
       },
@@ -50,10 +50,10 @@ export async function getService(app: FastifyInstance) {
         })
 
         if (!service) {
-          throw new BadRequestError("Service not found")
+          return reply.status(404).send({ message: "Service not found" })
         }
 
-        return reply.status(201).send(service)
+        return reply.status(200).send(service)
       }
     )
 }
