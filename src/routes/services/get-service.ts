@@ -3,11 +3,10 @@ import { services } from "@/db/schema"
 import { auth } from "@/middlewares/auth"
 import { establishmentHeaderSchema } from "@/utils/schemas/headers"
 import { serviceSchema } from "@/utils/schemas/services"
-import { eq } from "drizzle-orm"
+import { and, eq } from "drizzle-orm"
 import type { FastifyInstance } from "fastify"
 import type { ZodTypeProvider } from "fastify-type-provider-zod"
 import z from "zod"
-import { BadRequestError } from "../_erros/bad-request-error"
 
 export async function getService(app: FastifyInstance) {
   app
@@ -25,15 +24,20 @@ export async function getService(app: FastifyInstance) {
             id: z.string().uuid(),
           }),
           response: {
-            201: serviceSchema,
+            200: serviceSchema,
+            404: z.object({ message: z.string() }),
           },
         },
       },
       async (request, reply) => {
+        const { id } = request.params
         const { establishmentId } = await request.getCurrentEstablishmentId()
 
         const service = await db.query.services.findFirst({
-          where: eq(services.establishmentId, establishmentId),
+          where: and(
+            eq(services.establishmentId, establishmentId),
+            eq(services.id, id)
+          ),
           columns: {
             id: true,
             name: true,
@@ -46,10 +50,10 @@ export async function getService(app: FastifyInstance) {
         })
 
         if (!service) {
-          throw new BadRequestError("Service not found")
+          return reply.status(404).send({ message: "Service not found" })
         }
 
-        return reply.status(201).send(service)
+        return reply.status(200).send(service)
       }
     )
 }

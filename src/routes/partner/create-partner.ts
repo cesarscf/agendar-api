@@ -1,7 +1,7 @@
 import { stripe } from "@/clients/stripe"
 import { db } from "@/db"
 import { establishments, partners } from "@/db/schema"
-import { BadRequestError } from "@/routes/_erros/bad-request-error"
+import { BadRequestError } from "@/routes/erros/bad-request-error"
 import { generateRandomString } from "@/utils/generate-random-string"
 import { slugify } from "@/utils/slug"
 import bcrypt from "bcrypt"
