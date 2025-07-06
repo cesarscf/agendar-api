@@ -29,6 +29,7 @@ import { planRoutes } from "@/routes/plans"
 import { publicRoutes } from "@/routes/public"
 import { servicesRoutes } from "@/routes/services"
 import { subscriptionRoutes } from "@/routes/subscription"
+import fastifyRawBody from "fastify-raw-body"
 import { createCategory } from "./routes/categories/create-category"
 import { deleteCategory } from "./routes/categories/delete-category"
 import { getCategories } from "./routes/categories/get-categories"
@@ -69,6 +70,12 @@ app.register(fastifySwagger, {
   },
 
   transform: jsonSchemaTransform,
+})
+app.register(fastifyRawBody, {
+  field: "rawBody",
+  global: false,
+  encoding: false,
+  runFirst: true,
 })
 
 app.register(fastifySwaggerUi, {

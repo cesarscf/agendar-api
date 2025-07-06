@@ -16,7 +16,7 @@ export async function getPartner(app: FastifyInstance) {
       "/partner",
       {
         schema: {
-          tags: ["Auth"],
+          tags: ["Partner"],
           summary:
             "Get authenticated partner data with establishments and subscriptions",
           security: [{ bearerAuth: [] }],

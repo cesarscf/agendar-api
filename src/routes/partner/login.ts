@@ -13,7 +13,7 @@ export async function login(app: FastifyInstance) {
     "/login",
     {
       schema: {
-        tags: ["Auth"],
+        tags: ["Partner"],
         summary: "Login",
         body: z.object({
           email: z.string().email(),
@@ -30,7 +30,7 @@ export async function login(app: FastifyInstance) {
       const { email, password } = request.body
 
       const existingPartner = await db.query.partners.findFirst({
-        where: eq(partners.email, email),
+        where: eq(partners.email, email.toLowerCase()),
         with: {
           establishments: true,
         },

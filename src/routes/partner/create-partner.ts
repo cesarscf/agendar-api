@@ -15,7 +15,7 @@ export async function createPartner(app: FastifyInstance) {
     "/register",
     {
       schema: {
-        tags: ["Auth"],
+        tags: ["Partner"],
         summary: "Register",
         body: z.object({
           name: z.string(),
@@ -31,9 +31,9 @@ export async function createPartner(app: FastifyInstance) {
     },
     async (request, reply) => {
       const { email, password, name } = request.body
-
+      const formatedEmail = email.toLowerCase()
       const existingPartner = await db.query.partners.findFirst({
-        where: eq(partners.email, email),
+        where: eq(partners.email, formatedEmail),
       })
 
       if (existingPartner) {
@@ -41,7 +41,7 @@ export async function createPartner(app: FastifyInstance) {
       }
 
       const customerPayment = await stripe.customers.create({
-        email: email,
+        email: formatedEmail,
         name: name,
       })
 
@@ -53,7 +53,7 @@ export async function createPartner(app: FastifyInstance) {
           integrationPaymentId: customerPayment.id,
           name,
           password: hashedPassword,
-          email,
+          email: formatedEmail,
         })
         .returning()
 
