@@ -1,5 +1,5 @@
 import { db } from "@/db"
-import { packages, services } from "@/db/schema"
+import { services } from "@/db/schema"
 import { auth } from "@/middlewares/auth"
 import { establishmentHeaderSchema } from "@/utils/schemas/headers"
 import { and, eq } from "drizzle-orm"
@@ -57,14 +57,14 @@ export async function updateService(app: FastifyInstance) {
         }
 
         await db
-          .update(packages)
+          .update(services)
           .set({
             ...data,
           })
           .where(
             and(
-              eq(packages.id, serviceId),
-              eq(packages.establishmentId, establishmentId)
+              eq(services.id, serviceId),
+              eq(services.establishmentId, establishmentId)
             )
           )
 

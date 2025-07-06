@@ -48,7 +48,7 @@ export async function UpdateServiceStatus(app: FastifyInstance) {
         })
 
         if (!serviceExists) {
-          throw new BadRequestError("Package not found")
+          throw new BadRequestError("Service not found")
         }
 
         await db
