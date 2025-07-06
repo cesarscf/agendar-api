@@ -6,6 +6,7 @@ import type { FastifyInstance } from "fastify"
 
 export async function adminRoutes(app: FastifyInstance) {
   app.register(adminAuth)
+  // await createAdmin(app)
   await createPlan(app)
   await updatePlanStatus(app)
   await listPlans(app)

@@ -1,7 +1,8 @@
 import { db } from "@/db"
 import { partners } from "@/db/schema"
 import { auth } from "@/middlewares/auth"
-import { BadRequestError } from "@/routes/_erros/bad-request-error"
+import { BadRequestError } from "@/routes/erros/bad-request-error"
+import { establishmentHeaderSchema } from "@/utils/schemas/headers"
 import { eq } from "drizzle-orm"
 import type { FastifyInstance } from "fastify"
 import type { ZodTypeProvider } from "fastify-type-provider-zod"
@@ -15,10 +16,11 @@ export async function getPartner(app: FastifyInstance) {
       "/partner",
       {
         schema: {
-          tags: ["Auth"],
+          tags: ["Partner"],
           summary:
             "Get authenticated partner data with establishments and subscriptions",
           security: [{ bearerAuth: [] }],
+          headers: establishmentHeaderSchema,
           response: {
             200: z.object({
               partner: z.object({
@@ -68,6 +70,7 @@ export async function getPartner(app: FastifyInstance) {
                 endedAt: true,
                 createdAt: true,
               },
+              orderBy: (subs, { desc }) => [desc(subs.createdAt)],
             },
           },
         })

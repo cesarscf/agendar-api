@@ -1,7 +1,7 @@
 import { db } from "@/db"
 import { partnerPaymentMethods } from "@/db/schema"
 import { auth } from "@/middlewares/auth"
-import { eq } from "drizzle-orm"
+import { desc, eq } from "drizzle-orm"
 import type { FastifyInstance } from "fastify"
 import type { ZodTypeProvider } from "fastify-type-provider-zod"
 import z from "zod"
@@ -45,6 +45,7 @@ export async function listPartnerPaymentMethods(app: FastifyInstance) {
           })
           .from(partnerPaymentMethods)
           .where(eq(partnerPaymentMethods.partnerId, partnerId))
+          .orderBy(desc(partnerPaymentMethods.createdAt))
 
         return reply.send(methods)
       }

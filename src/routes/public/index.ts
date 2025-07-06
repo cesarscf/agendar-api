@@ -3,7 +3,7 @@ import { getEstablishmentPackages } from "@/routes/public/get-establishment-pack
 import { getEstablishmentProfessionals } from "@/routes/public/get-establishment-professionals"
 import { getEstablishmentServices } from "@/routes/public/get-establishment-services"
 import { getProfessionalServices } from "@/routes/public/get-professional-services"
-import { getServiceProfessionals } from "@/ routes/public/get-service-professionals"
+import { getServiceProfessionals } from "@/routes/public/get-service-professionals"
 import type { FastifyInstance } from "fastify"
 
 export async function publicRoutes(app: FastifyInstance) {

@@ -40,7 +40,6 @@ export async function createAppointment(app: FastifyInstance) {
         const { customerId, establishmentId } =
           await request.getCurrentCustomerEstablishmentId()
 
-        // 1. Verifica se o funcionário presta o serviço
         const relation = await db.query.employeeServices.findFirst({
           where: and(
             eq(employeeServices.employeeId, employeeId),
@@ -54,7 +53,6 @@ export async function createAppointment(app: FastifyInstance) {
             .send({ message: "Funcionário não presta este serviço" })
         }
 
-        // 2. Pega a duração do serviço
         const service = await db.query.services.findFirst({
           where: eq(services.id, serviceId),
           columns: { durationInMinutes: true },

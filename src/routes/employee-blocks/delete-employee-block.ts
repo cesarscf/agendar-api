@@ -1,6 +1,7 @@
 import { db } from "@/db"
 import { employeeTimeBlocks, employees } from "@/db/schema"
 import { auth } from "@/middlewares/auth"
+import { establishmentHeaderSchema } from "@/utils/schemas/headers"
 import { eq } from "drizzle-orm"
 import type { FastifyInstance } from "fastify"
 import type { ZodTypeProvider } from "fastify-type-provider-zod"
@@ -17,6 +18,7 @@ export async function deleteEmployeeBlock(app: FastifyInstance) {
           tags: ["Employee Blocks"],
           summary: "Delete employee time block",
           security: [{ bearerAuth: [] }],
+          headers: establishmentHeaderSchema,
           params: z.object({
             blockId: z.string().uuid(),
           }),

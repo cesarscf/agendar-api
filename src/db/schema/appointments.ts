@@ -19,6 +19,7 @@ export const appointmentStatusValues = [
   "completed",
   "canceled",
 ] as const
+
 export const appointmentStatusEnum = pgEnum(
   "appointment_status",
   appointmentStatusValues

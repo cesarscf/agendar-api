@@ -1,6 +1,7 @@
 import { db } from "@/db"
 import { establishmentAvailability } from "@/db/schema"
 import { auth } from "@/middlewares/auth"
+import { establishmentHeaderSchema } from "@/utils/schemas/headers"
 import { and, eq } from "drizzle-orm"
 import type { FastifyInstance } from "fastify"
 import type { ZodTypeProvider } from "fastify-type-provider-zod"
@@ -17,6 +18,7 @@ export async function updateAvailability(app: FastifyInstance) {
           tags: ["Establishment"],
           summary: "Update specific availability",
           security: [{ bearerAuth: [] }],
+          headers: establishmentHeaderSchema,
           params: z.object({
             id: z.string().uuid(),
           }),

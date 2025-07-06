@@ -4,6 +4,7 @@ import {
   partnerPaymentMethods,
   partners,
   plans,
+  subscriptionStatusEnum,
   subscriptions,
 } from "@/db/schema"
 import { auth } from "@/middlewares/auth"
@@ -62,6 +63,23 @@ export async function createPartnerSubscribe(app: FastifyInstance) {
           .from(partners)
           .where(eq(partners.id, partnerId))
         if (!partner) return reply.status(404).send()
+
+        const subscriptionAlreadyExists = await db
+          .select()
+          .from(subscriptions)
+          .where(
+            and(
+              eq(subscriptions.partnerId, partnerId),
+              eq(subscriptions.status, subscriptionStatusEnum.active),
+              eq(subscriptions.planId, planId)
+            )
+          )
+
+        if (subscriptionAlreadyExists)
+          return reply
+            .status(400)
+            .send({ message: "Partner already subscribed in this plan" })
+
         await stripe.paymentMethods.attach(paymentMethodId, {
           customer: partner.integrationPaymentId,
         })
