@@ -1,5 +1,5 @@
 import { db } from "@/db"
-import { packages } from "@/db/schema"
+import { packages, services } from "@/db/schema"
 import { auth } from "@/middlewares/auth"
 import { establishmentHeaderSchema } from "@/utils/schemas/headers"
 import { and, eq } from "drizzle-orm"
@@ -39,21 +39,21 @@ export async function updateService(app: FastifyInstance) {
       async (request, reply) => {
         const { establishmentId } = await request.getCurrentEstablishmentId()
 
-        const { id: packageId } = request.params
+        const { id: serviceId } = request.params
         const data = request.body
 
-        const packageExists = await db.query.packages.findFirst({
+        const serviceExists = await db.query.services.findFirst({
           where: and(
-            eq(packages.establishmentId, establishmentId),
-            eq(packages.id, packageId)
+            eq(services.establishmentId, establishmentId),
+            eq(services.id, serviceId)
           ),
           columns: {
             id: true,
           },
         })
 
-        if (!packageExists) {
-          throw new BadRequestError("Package not found")
+        if (!serviceExists) {
+          throw new BadRequestError("Service not found")
         }
 
         await db
@@ -63,7 +63,7 @@ export async function updateService(app: FastifyInstance) {
           })
           .where(
             and(
-              eq(packages.id, packageId),
+              eq(packages.id, serviceId),
               eq(packages.establishmentId, establishmentId)
             )
           )
