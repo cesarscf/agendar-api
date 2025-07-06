@@ -35,12 +35,12 @@ export async function addLoyaltyServices(app: FastifyInstance) {
           }),
           response: {
             204: z.null(),
-            404: {
-              type: "object",
-              properties: {
-                message: { type: "string" },
-              },
-            },
+            404: z.object({
+              message: z.string(),
+            }),
+            500: z.object({
+              message: z.string(),
+            }),
           },
         },
       },
@@ -74,7 +74,7 @@ export async function addLoyaltyServices(app: FastifyInstance) {
           }))
         )
 
-        return reply.status(201).send({ success: true })
+        return reply.status(204).send()
       }
     )
 }
