@@ -13,7 +13,7 @@ export async function getPartnerSubscriptionById(app: FastifyInstance) {
       "/subscriptions/:subscriptionId",
       {
         schema: {
-          tags: ["Subscription"],
+          tags: ["Subscriptions"],
           summary: "Get a single subscription by ID",
           security: [{ bearerAuth: [] }],
           params: z.object({

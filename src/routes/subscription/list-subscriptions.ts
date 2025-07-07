@@ -14,7 +14,7 @@ export async function listPartnerSubscriptions(app: FastifyInstance) {
       "/subscriptions",
       {
         schema: {
-          tags: ["Subscription"],
+          tags: ["Subscriptions"],
           summary: "List all subscriptions of the authenticated partner",
           security: [{ bearerAuth: [] }],
           response: {
