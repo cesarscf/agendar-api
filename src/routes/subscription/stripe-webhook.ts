@@ -41,13 +41,17 @@ export async function stripeWebhook(app: FastifyInstance) {
         case "customer.subscription.updated":
         case "customer.subscription.deleted": {
           const sub = event.data.object as Stripe.Subscription
-          const currentPeriodEnd = sub.ended_at ? sub.ended_at * 1000 : 1000
+          // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+          const updateData: any = {
+            status: sub.status,
+          }
+          if (sub.ended_at) {
+            updateData.currentPeriodEnd = new Date(sub.ended_at * 1000)
+          }
+
           await db
             .update(subscriptions)
-            .set({
-              status: sub.status,
-              currentPeriodEnd: new Date(currentPeriodEnd),
-            })
+            .set(updateData)
             .where(eq(subscriptions.integrationSubscriptionId, sub.id))
 
           break
