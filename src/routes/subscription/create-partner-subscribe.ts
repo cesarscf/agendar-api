@@ -75,7 +75,7 @@ export async function createPartnerSubscribe(app: FastifyInstance) {
             )
           )
 
-        if (subscriptionAlreadyExists)
+        if (subscriptionAlreadyExists.length)
           return reply
             .status(400)
             .send({ message: "Partner already subscribed in this plan" })

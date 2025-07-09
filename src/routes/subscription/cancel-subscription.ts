@@ -54,7 +54,7 @@ export async function cancelSubscription(app: FastifyInstance) {
         await db
           .update(subscriptions)
           .set({
-            status: "canceled",
+            status: atPeriodEnd ? "active" : "canceled",
             endedAt: atPeriodEnd ? null : new Date(),
           })
           .where(eq(subscriptions.id, subscription.id))
