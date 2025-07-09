@@ -6,7 +6,7 @@ import { changeSubscriptionPlan } from "./change-subscription-plan"
 
 export async function subscriptionRoutes(app: FastifyInstance) {
   await changeSubscriptionPlan(app)
-  await cancelSubscription(app)
   await listPartnerSubscriptions(app)
   await getPartnerSubscriptionById(app)
+  await cancelSubscription(app)
 }

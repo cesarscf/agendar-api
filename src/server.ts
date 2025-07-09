@@ -54,7 +54,6 @@ app.setSerializerCompiler(serializerCompiler)
 app.setValidatorCompiler(validatorCompiler)
 
 app.register(fastifyCors)
-
 app.register(fastifySwagger, {
   openapi: {
     info: {
@@ -80,11 +79,9 @@ app.register(fastifyRawBody, {
   encoding: false,
   runFirst: true,
 })
-
 app.register(fastifySwaggerUi, {
   routePrefix: "/docs",
 })
-
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
 })
@@ -95,6 +92,7 @@ app.register(createPartnerSubscribe)
 app.register(login)
 app.register(createPartner)
 app.register(getPartner)
+app.register(subscriptionRoutes)
 
 app.register(appointments)
 app.register(getCategories)
@@ -108,7 +106,6 @@ app.register(servicesRoutes)
 app.register(availabilityRoutes)
 app.register(employeeBlocksRoutes)
 app.register(customersRoutes)
-app.register(subscriptionRoutes)
 app.register(paymentMethodRoutes)
 app.register(adminLogin)
 app.register(adminRoutes, { prefix: "/admin" })
