@@ -30,6 +30,7 @@ export async function updateEmployee(app: FastifyInstance) {
             email: z.string().email().optional(),
             phone: z.string().optional(),
             address: z.string().optional(),
+            biography: z.string().optional(),
             avatarUrl: z.string().optional(),
           }),
           response: {
