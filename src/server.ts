@@ -30,6 +30,7 @@ import { planRoutes } from "@/routes/plans"
 import { publicRoutes } from "@/routes/public"
 import { servicesRoutes } from "@/routes/services"
 import { subscriptionRoutes } from "@/routes/subscription"
+import { stripeWebhook } from "@/routes/subscription/stripe-webhook"
 import fastifyRawBody from "fastify-raw-body"
 import { createCategory } from "./routes/categories/create-category"
 import { deleteCategory } from "./routes/categories/delete-category"
@@ -88,7 +89,7 @@ app.register(fastifyJwt, {
 })
 
 app.setErrorHandler(errorHandler)
-
+app.register(stripeWebhook)
 app.register(login)
 app.register(createPartner)
 app.register(getPartner)
