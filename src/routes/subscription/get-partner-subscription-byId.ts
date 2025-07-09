@@ -58,11 +58,19 @@ export async function getPartnerSubscriptionById(app: FastifyInstance) {
           },
         })
 
+        console.log(subscription)
+
         if (!subscription) {
           return reply.status(404).send({ message: "Subscription not found" })
         }
 
-        return reply.send(subscription)
+        return reply.send({
+          ...subscription,
+          plan: {
+            ...subscription.plan,
+            price: subscription.plan.price.toString(),
+          },
+        })
       }
     )
 }
