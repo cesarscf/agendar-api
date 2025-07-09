@@ -1,3 +1,4 @@
+import { associateItemsToPackage } from "@/routes/packages/associate-items-to-package"
 import { createPackage } from "@/routes/packages/create-package"
 import { deletePackage } from "@/routes/packages/delete-package"
 import { getPackage } from "@/routes/packages/get-package"
@@ -13,4 +14,5 @@ export async function packagesRoutes(app: FastifyInstance) {
   await deletePackage(app)
   await createPackage(app)
   await UpdatePackageStatus(app)
+  await associateItemsToPackage(app)
 }

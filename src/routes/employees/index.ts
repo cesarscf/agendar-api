@@ -1,3 +1,4 @@
+import { associateServicesToEmployee } from "@/routes/employees/associate-services-to-employee"
 import { createEmployee } from "@/routes/employees/create-employee"
 import { deleteEmployee } from "@/routes/employees/delete-employee"
 import { getEmployee } from "@/routes/employees/get-employee"
@@ -13,4 +14,5 @@ export async function employeesRoutes(app: FastifyInstance) {
   await deleteEmployee(app)
   await createEmployee(app)
   await UpdateEmployeeStatus(app)
+  await associateServicesToEmployee(app)
 }
