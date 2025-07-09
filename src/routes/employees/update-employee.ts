@@ -42,7 +42,7 @@ export async function updateEmployee(app: FastifyInstance) {
         const { establishmentId } = await request.getCurrentEstablishmentId()
 
         const { id: employeeId } = request.params
-        const { name } = request.body
+        const inputs = request.body
 
         const employee = await db.query.employees.findFirst({
           where: and(
@@ -62,7 +62,7 @@ export async function updateEmployee(app: FastifyInstance) {
         await db
           .update(employees)
           .set({
-            name,
+            ...inputs,
           })
           .where(
             and(
