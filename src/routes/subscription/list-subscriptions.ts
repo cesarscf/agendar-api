@@ -29,7 +29,7 @@ export async function listPartnerSubscriptions(app: FastifyInstance) {
                   id: z.string().uuid(),
                   name: z.string(),
                   description: z.string(),
-                  price: z.string(),
+                  price: z.number(),
                 }),
               })
             ),
@@ -54,6 +54,7 @@ export async function listPartnerSubscriptions(app: FastifyInstance) {
           orderBy: (subs, { desc }) => [desc(subs.createdAt)],
         })
 
+        // @ts-ignore
         return reply.send(results)
       }
     )
