@@ -55,6 +55,7 @@ app.register(fastifyCors)
 
 app.register(fastifySwagger, {
   openapi: {
+    openapi: '3.0.0',
     info: {
       title: "Worqui",
       version: "0.1",
