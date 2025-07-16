@@ -1,3 +1,5 @@
+import { db } from "@/db"
+import { fcmTokens } from "@/db/schema"
 import { env } from "@/env"
 import { adminRoutes } from "@/routes/admin"
 import { adminLogin } from "@/routes/admin/login"
@@ -107,6 +109,14 @@ app.register(adminLogin)
 app.register(servicesRoutes)
 app.register(publicRoutes, { prefix: "/public" })
 app.register(adminRoutes, { prefix: "/admin" })
+app.post("/fcm/register", async (request, reply) => {
+  const { token, userId } = request.body as { token: string; userId: string }
+
+  if (!token) return reply.status(400).send({ error: "Token ausente" })
+  await db.insert(fcmTokens).values({ userId, token })
+
+  return reply.status(200).send({ ok: true })
+})
 app.listen({ port: env.PORT, host: "0.0.0.0" }).then(() => {
   console.log("HTTP server running!")
 })

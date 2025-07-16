@@ -12,7 +12,7 @@ export * from "./services-categories"
 export * from "./customer-loyalty-points"
 export * from "./loyalty-programs"
 export * from "./loyalty-point-rules"
-
+export * from "./fcm-tokens"
 export {
   NewCustomerServicePackages,
   customerServicePackagesRelations,
