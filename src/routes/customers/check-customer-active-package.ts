@@ -1,20 +1,22 @@
 import { db } from "@/db"
 import { customerServicePackages, packageItems, packages } from "@/db/schema"
 import { customerAuth } from "@/middlewares/customer-auth"
+import { customerHeaderSchema } from "@/utils/schemas/headers"
 import { and, eq, sql } from "drizzle-orm"
 import type { FastifyInstance } from "fastify"
 import type { ZodTypeProvider } from "fastify-type-provider-zod"
 import z from "zod"
 
 export async function checkCustomerActivePackage(app: FastifyInstance) {
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .register(customerAuth)
-    .get(
+  await app.register(async app => {
+    const typedApp = app.withTypeProvider<ZodTypeProvider>()
+    typedApp.register(customerAuth)
+    typedApp.get(
       "/customers/has-active-package",
       {
         schema: {
           tags: ["Customer"],
+          headers: customerHeaderSchema,
           summary: "Check if customer has an active package for a service",
           querystring: z.object({
             serviceId: z.string().uuid(),
@@ -52,4 +54,5 @@ export async function checkCustomerActivePackage(app: FastifyInstance) {
         })
       }
     )
+  })
 }

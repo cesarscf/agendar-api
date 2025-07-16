@@ -20,11 +20,11 @@ const createLoyaltySchema = z.object({
 })
 
 export async function createLoyaltyProgram(app: FastifyInstance) {
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .register(auth)
-    .register(requireActiveSubscription)
-    .post(
+  await app.register(async app => {
+    const typedApp = app.withTypeProvider<ZodTypeProvider>()
+    typedApp.register(auth)
+    typedApp.register(requireActiveSubscription)
+    typedApp.post(
       "/loyalty-programs",
       {
         schema: {
@@ -63,4 +63,5 @@ export async function createLoyaltyProgram(app: FastifyInstance) {
         return reply.status(204).send()
       }
     )
+  })
 }

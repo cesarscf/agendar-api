@@ -10,10 +10,10 @@ import z from "zod"
 import { BadRequestError } from "../erros/bad-request-error"
 
 export async function createCategory(app: FastifyInstance) {
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .register(auth)
-    .post(
+  await app.register(async app => {
+    const typedApp = app.withTypeProvider<ZodTypeProvider>()
+    typedApp.register(auth)
+    typedApp.post(
       "/categories",
       {
         schema: {
@@ -55,4 +55,5 @@ export async function createCategory(app: FastifyInstance) {
         return reply.status(204).send()
       }
     )
+  })
 }

@@ -14,7 +14,13 @@ export const customerAuth = fastifyPlugin(async (app: FastifyInstance) => {
       if (!phone) {
         throw new UnauthorizedError("Customer Not Found")
       }
-      return phone
+      const customer = await db.query.customers.findFirst({
+        where: eq(customers.phoneNumber, phone),
+      })
+      if (!customer) {
+        throw new UnauthorizedError("Customer Not Found")
+      }
+      return customer.id
     }
 
     request.getCurrentCustomerEstablishmentId = async () => {

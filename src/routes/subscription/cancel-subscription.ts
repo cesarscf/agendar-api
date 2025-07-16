@@ -7,13 +7,12 @@ import { eq } from "drizzle-orm"
 import type { FastifyInstance } from "fastify"
 import type { ZodTypeProvider } from "fastify-type-provider-zod"
 import z from "zod"
-
 export async function cancelSubscription(app: FastifyInstance) {
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .register(auth)
-    .register(requireActiveSubscription)
-    .delete(
+  await app.register(async app => {
+    const typedApp = app.withTypeProvider<ZodTypeProvider>()
+    typedApp.register(auth)
+    typedApp.register(requireActiveSubscription)
+    typedApp.delete(
       "/subscriptions/cancel",
       {
         schema: {
@@ -21,7 +20,7 @@ export async function cancelSubscription(app: FastifyInstance) {
           summary: "Cancel partner's current subscription",
           security: [{ bearerAuth: [] }],
           querystring: z.object({
-            atPeriodEnd: z.boolean().optional().default(true), // cancelar no fim do ciclo por padrão
+            atPeriodEnd: z.boolean().optional().default(true),
           }),
           response: {
             204: z.null(),
@@ -62,4 +61,5 @@ export async function cancelSubscription(app: FastifyInstance) {
         return reply.status(204).send()
       }
     )
+  })
 }

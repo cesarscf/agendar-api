@@ -6,6 +6,7 @@ import { customerServicePackageUsages } from "@/db/schema/customer-service-packa
 import { packageItems } from "@/db/schema/package-items"
 import { customerAuth } from "@/middlewares/customer-auth"
 import { addMinutes, splitDate } from "@/utils/get-date"
+import { customerHeaderSchema } from "@/utils/schemas/headers"
 import { and, eq, gt, gte, isNull, lt, lte, or } from "drizzle-orm"
 import type { FastifyInstance } from "fastify"
 import type { ZodTypeProvider } from "fastify-type-provider-zod"
@@ -20,15 +21,16 @@ export const createAppointmentSchema = z.object({
 })
 
 export async function createAppointmentUsingPackage(app: FastifyInstance) {
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .register(customerAuth)
-    .post(
+  await app.register(async app => {
+    const typedApp = app.withTypeProvider<ZodTypeProvider>()
+    typedApp.register(customerAuth)
+    typedApp.post(
       "/appointments/use-package",
       {
         schema: {
-          tags: ["Appointment"],
+          tags: ["Appointments"],
           summary: "Create appointment using service package",
+          headers: customerHeaderSchema,
           body: createAppointmentSchema,
           response: {
             204: z.null(),
@@ -156,4 +158,5 @@ export async function createAppointmentUsingPackage(app: FastifyInstance) {
         return reply.status(204).send()
       }
     )
+  })
 }

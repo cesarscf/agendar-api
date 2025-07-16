@@ -7,10 +7,10 @@ import type { ZodTypeProvider } from "fastify-type-provider-zod"
 import z from "zod"
 
 export async function createEmployeeBlock(app: FastifyInstance) {
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .register(auth)
-    .post(
+  await app.register(async app => {
+    const typedApp = app.withTypeProvider<ZodTypeProvider>()
+    typedApp.register(auth)
+    typedApp.post(
       "/employees/:id/blocks",
       {
         schema: {
@@ -81,4 +81,5 @@ export async function createEmployeeBlock(app: FastifyInstance) {
         return reply.status(201).send({ id: block.id })
       }
     )
+  })
 }

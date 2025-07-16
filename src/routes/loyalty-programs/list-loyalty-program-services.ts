@@ -9,12 +9,11 @@ import type { ZodTypeProvider } from "fastify-type-provider-zod"
 import z from "zod"
 
 export async function listLoyaltyProgramServices(app: FastifyInstance) {
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .register(auth)
-    .register(requireActiveSubscription)
-    .withTypeProvider<ZodTypeProvider>()
-    .get(
+  await app.register(async app => {
+    const typedApp = app.withTypeProvider<ZodTypeProvider>()
+    typedApp.register(auth)
+    typedApp.register(requireActiveSubscription)
+    typedApp.get(
       "/loyalty-programs/:programId/services",
       {
         schema: {
@@ -51,4 +50,5 @@ export async function listLoyaltyProgramServices(app: FastifyInstance) {
         return reply.status(200).send(result)
       }
     )
+  })
 }

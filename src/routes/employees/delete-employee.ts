@@ -10,11 +10,11 @@ import z from "zod"
 import { BadRequestError } from "../erros/bad-request-error"
 
 export async function deleteEmployee(app: FastifyInstance) {
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .register(auth)
-    .register(requireActiveSubscription)
-    .delete(
+  await app.register(async app => {
+    const typedApp = app.withTypeProvider<ZodTypeProvider>()
+    typedApp.register(auth)
+    typedApp.register(requireActiveSubscription)
+    typedApp.delete(
       "/employees/:id",
       {
         schema: {
@@ -62,4 +62,5 @@ export async function deleteEmployee(app: FastifyInstance) {
         return reply.status(204).send()
       }
     )
+  })
 }

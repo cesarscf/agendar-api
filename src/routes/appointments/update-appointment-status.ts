@@ -11,12 +11,12 @@ import type { ZodTypeProvider } from "fastify-type-provider-zod"
 import z from "zod"
 
 export async function updateAppointmentStatus(app: FastifyInstance) {
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .register(auth)
-    .register(requireActiveSubscription)
-    .patch(
-      "/appointments/:id/status",
+  await app.register(async app => {
+    const typedApp = app.withTypeProvider<ZodTypeProvider>()
+    typedApp.register(auth)
+    typedApp.register(requireActiveSubscription)
+    typedApp.patch(
+      "/partner/appointments/:id/status",
       {
         schema: {
           tags: ["Appointments"],
@@ -118,4 +118,5 @@ export async function updateAppointmentStatus(app: FastifyInstance) {
         return reply.status(204).send()
       }
     )
+  })
 }

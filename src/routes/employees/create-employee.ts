@@ -9,11 +9,11 @@ import type { ZodTypeProvider } from "fastify-type-provider-zod"
 import z from "zod"
 
 export async function createEmployee(app: FastifyInstance) {
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .register(auth)
-    .register(requireActiveSubscription)
-    .post(
+  await app.register(async app => {
+    const typedApp = app.withTypeProvider<ZodTypeProvider>()
+    typedApp.register(auth)
+    typedApp.register(requireActiveSubscription)
+    typedApp.post(
       "/employees",
       {
         schema: {
@@ -40,4 +40,5 @@ export async function createEmployee(app: FastifyInstance) {
         return reply.status(204).send()
       }
     )
+  })
 }

@@ -9,10 +9,10 @@ import type { ZodTypeProvider } from "fastify-type-provider-zod"
 import z from "zod"
 
 export async function changeSubscriptionPlan(app: FastifyInstance) {
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .register(auth)
-    .patch(
+  await app.register(async app => {
+    const typedApp = app.withTypeProvider<ZodTypeProvider>()
+    typedApp.register(auth)
+    typedApp.patch(
       "/subscriptions/change-plan",
       {
         schema: {
@@ -103,4 +103,5 @@ export async function changeSubscriptionPlan(app: FastifyInstance) {
         })
       }
     )
+  })
 }

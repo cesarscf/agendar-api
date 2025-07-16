@@ -8,10 +8,10 @@ import type { ZodTypeProvider } from "fastify-type-provider-zod"
 import z from "zod"
 
 export async function createPackage(app: FastifyInstance) {
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .register(auth)
-    .post(
+  await app.register(async app => {
+    const typedApp = app.withTypeProvider<ZodTypeProvider>()
+    typedApp.register(auth)
+    typedApp.post(
       "/packages",
       {
         schema: {
@@ -38,4 +38,5 @@ export async function createPackage(app: FastifyInstance) {
         return reply.status(204).send()
       }
     )
+  })
 }

@@ -8,10 +8,10 @@ import type { ZodTypeProvider } from "fastify-type-provider-zod"
 import z from "zod"
 
 export async function deleteEmployeeBlock(app: FastifyInstance) {
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .register(auth)
-    .delete(
+  await app.register(async app => {
+    const typedApp = app.withTypeProvider<ZodTypeProvider>()
+    typedApp.register(auth)
+    typedApp.delete(
       "/blocks/:blockId",
       {
         schema: {
@@ -61,4 +61,5 @@ export async function deleteEmployeeBlock(app: FastifyInstance) {
         return reply.status(204).send()
       }
     )
+  })
 }

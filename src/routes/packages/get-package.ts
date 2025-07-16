@@ -10,10 +10,10 @@ import z from "zod"
 import { BadRequestError } from "../erros/bad-request-error"
 
 export async function getPackage(app: FastifyInstance) {
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .register(auth)
-    .get(
+  await app.register(async app => {
+    const typedApp = app.withTypeProvider<ZodTypeProvider>()
+    typedApp.register(auth)
+    typedApp.get(
       "/packages/:id",
       {
         schema: {
@@ -43,6 +43,19 @@ export async function getPackage(app: FastifyInstance) {
             image: true,
             price: true,
           },
+          with: {
+            packageItems: {
+              with: {
+                service: {
+                  columns: {
+                    id: true,
+                    name: true,
+                    price: true,
+                  },
+                },
+              },
+            },
+          },
         })
 
         if (!result) {
@@ -52,4 +65,5 @@ export async function getPackage(app: FastifyInstance) {
         return reply.status(201).send(result)
       }
     )
+  })
 }

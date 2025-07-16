@@ -7,6 +7,7 @@ const envSchema = z.object({
   STRIPE_SECRET_KEY: z.string(),
   STRIPE_WEBHOOK_SECRET: z.string(),
   NODE_ENV: z.string(),
+  FIREBASE_SERVICE_ACCOUNT_KEY_ENCODED_JSON: z.string(),
 })
 
 export const env = envSchema.parse(process.env)

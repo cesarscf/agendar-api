@@ -8,11 +8,11 @@ import type { ZodTypeProvider } from "fastify-type-provider-zod"
 import z from "zod"
 
 export async function removeLoyaltyService(app: FastifyInstance) {
-  app
-    .register(auth)
-    .register(requireActiveSubscription)
-    .withTypeProvider<ZodTypeProvider>()
-    .delete(
+  await app.register(async app => {
+    const typedApp = app.withTypeProvider<ZodTypeProvider>()
+    typedApp.register(auth)
+    typedApp.register(requireActiveSubscription)
+    typedApp.delete(
       "/loyalty-programs/:programId/services/:serviceId",
       {
         schema: {
@@ -43,4 +43,5 @@ export async function removeLoyaltyService(app: FastifyInstance) {
         return reply.status(204).send()
       }
     )
+  })
 }

@@ -12,7 +12,7 @@ export async function packagesRoutes(app: FastifyInstance) {
   await getPackage(app)
   await updatePackage(app)
   await deletePackage(app)
-  await createPackage(app)
   await UpdatePackageStatus(app)
+  await createPackage(app)
   await associateItemsToPackage(app)
 }

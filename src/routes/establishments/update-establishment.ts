@@ -8,10 +8,10 @@ import type { ZodTypeProvider } from "fastify-type-provider-zod"
 import z from "zod"
 
 export async function updateEstablishment(app: FastifyInstance) {
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .register(auth)
-    .put(
+  await app.register(async app => {
+    const typedApp = app.withTypeProvider<ZodTypeProvider>()
+    typedApp.register(auth)
+    typedApp.put(
       "/establishments",
       {
         schema: {
@@ -49,4 +49,5 @@ export async function updateEstablishment(app: FastifyInstance) {
         return reply.status(204).send()
       }
     )
+  })
 }

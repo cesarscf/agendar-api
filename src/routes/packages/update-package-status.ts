@@ -9,10 +9,10 @@ import z from "zod"
 import { BadRequestError } from "../erros/bad-request-error"
 
 export async function UpdatePackageStatus(app: FastifyInstance) {
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .register(auth)
-    .patch(
+  await app.register(async app => {
+    const typedApp = app.withTypeProvider<ZodTypeProvider>()
+    typedApp.register(auth)
+    typedApp.patch(
       "/packages/:id",
       {
         schema: {
@@ -66,4 +66,5 @@ export async function UpdatePackageStatus(app: FastifyInstance) {
         return reply.status(204).send()
       }
     )
+  })
 }

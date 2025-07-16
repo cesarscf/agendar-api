@@ -1,4 +1,3 @@
-// routes/dashboard/list-appointments.ts
 import { db } from "@/db"
 import {
   appointmentStatusValues,
@@ -16,10 +15,10 @@ import z from "zod"
 const appointmentStatusSchema = z.enum(appointmentStatusValues)
 
 export async function listAppointments(app: FastifyInstance) {
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .register(auth)
-    .get(
+  await app.register(async app => {
+    const typedApp = app.withTypeProvider<ZodTypeProvider>()
+    typedApp.register(auth)
+    typedApp.get(
       "/establishments/appointments",
       {
         schema: {
@@ -129,4 +128,5 @@ export async function listAppointments(app: FastifyInstance) {
         })
       }
     )
+  })
 }

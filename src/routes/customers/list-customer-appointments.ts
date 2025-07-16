@@ -1,20 +1,22 @@
 import { db } from "@/db"
 import { appointments, employees, services } from "@/db/schema"
 import { customerAuth } from "@/middlewares/customer-auth"
+import { customerHeaderSchema } from "@/utils/schemas/headers"
 import { eq } from "drizzle-orm"
 import type { FastifyInstance } from "fastify"
 import type { ZodTypeProvider } from "fastify-type-provider-zod"
 import z from "zod"
 
 export async function listCustomerAppointments(app: FastifyInstance) {
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .register(customerAuth)
-    .get(
+  await app.register(async app => {
+    const typedApp = app.withTypeProvider<ZodTypeProvider>()
+    typedApp.register(customerAuth)
+    typedApp.get(
       "/me/appointments",
       {
         schema: {
           tags: ["Customer"],
+          headers: customerHeaderSchema,
           summary: "Listar histórico de agendamentos",
           response: {
             200: z.array(
@@ -62,4 +64,5 @@ export async function listCustomerAppointments(app: FastifyInstance) {
         return reply.send(history)
       }
     )
+  })
 }

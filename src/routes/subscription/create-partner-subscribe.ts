@@ -14,10 +14,10 @@ import type { ZodTypeProvider } from "fastify-type-provider-zod"
 import z from "zod"
 
 export async function createPartnerSubscribe(app: FastifyInstance) {
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .register(auth)
-    .post(
+  await app.register(async app => {
+    const typedApp = app.withTypeProvider<ZodTypeProvider>()
+    typedApp.register(auth)
+    typedApp.post(
       "/subscriptions/subscribe",
       {
         schema: {
@@ -116,4 +116,5 @@ export async function createPartnerSubscribe(app: FastifyInstance) {
         })
       }
     )
+  })
 }

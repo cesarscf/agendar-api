@@ -15,11 +15,11 @@ const pointRuleSchema = z.object({
 })
 
 export async function getByIdLoyaltyProgram(app: FastifyInstance) {
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .register(auth)
-    .register(requireActiveSubscription)
-    .get(
+  await app.register(async app => {
+    const typedApp = app.withTypeProvider<ZodTypeProvider>()
+    typedApp.register(auth)
+    typedApp.register(requireActiveSubscription)
+    typedApp.get(
       "/loyalty-programs/:id",
       {
         schema: {
@@ -61,4 +61,5 @@ export async function getByIdLoyaltyProgram(app: FastifyInstance) {
         return reply.send({ ...program, rules })
       }
     )
+  })
 }

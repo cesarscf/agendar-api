@@ -11,11 +11,11 @@ import z from "zod"
 import { BadRequestError } from "../erros/bad-request-error"
 
 export async function getEmployee(app: FastifyInstance) {
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .register(auth)
-    .register(requireActiveSubscription)
-    .get(
+  await app.register(async app => {
+    const typedApp = app.withTypeProvider<ZodTypeProvider>()
+    typedApp.register(auth)
+    typedApp.register(requireActiveSubscription)
+    typedApp.get(
       "/employees/:id",
       {
         schema: {
@@ -60,4 +60,5 @@ export async function getEmployee(app: FastifyInstance) {
         return reply.status(201).send(employee)
       }
     )
+  })
 }

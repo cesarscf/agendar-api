@@ -8,10 +8,10 @@ import type { ZodTypeProvider } from "fastify-type-provider-zod"
 import z from "zod"
 
 export async function getSetupIntent(app: FastifyInstance) {
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .register(auth)
-    .get(
+  await app.register(async app => {
+    const typedApp = app.withTypeProvider<ZodTypeProvider>()
+    typedApp.register(auth)
+    typedApp.get(
       "/payment-methods/setup-intent",
       {
         schema: {
@@ -50,4 +50,5 @@ export async function getSetupIntent(app: FastifyInstance) {
         return reply.send({ clientSecret: setupIntent.client_secret })
       }
     )
+  })
 }

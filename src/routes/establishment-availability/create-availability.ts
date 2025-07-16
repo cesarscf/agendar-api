@@ -24,10 +24,10 @@ const availabilitySchema = z.array(
 )
 
 export async function createAvailability(app: FastifyInstance) {
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .register(auth)
-    .post(
+  await app.register(async app => {
+    const typedApp = app.withTypeProvider<ZodTypeProvider>()
+    typedApp.register(auth)
+    typedApp.post(
       "/establishments/availability",
       {
         schema: {
@@ -57,4 +57,5 @@ export async function createAvailability(app: FastifyInstance) {
         return reply.status(204).send()
       }
     )
+  })
 }

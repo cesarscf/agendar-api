@@ -5,6 +5,7 @@ import { getCustomer } from "@/routes/customers/get-customer"
 import { getCustomers } from "@/routes/customers/get-customers"
 import { getAvailability } from "@/routes/customers/get-establishment-availability"
 import { getLoyaltyByEstablishmentAndService } from "@/routes/customers/get-loyalty-by-establishment-and-service"
+import { listCustomerAppointments } from "@/routes/customers/list-customer-appointments"
 import { listCustomerPackages } from "@/routes/customers/list-customer-packages"
 import { updateCustomer } from "@/routes/customers/update-customer"
 import { verifyCustomerByPhone } from "@/routes/customers/verify-customer-by-phone"
@@ -21,4 +22,5 @@ export async function customersRoutes(app: FastifyInstance) {
   await verifyCustomerByPhone(app)
   await checkCustomerActivePackage(app)
   await getLoyaltyByEstablishmentAndService(app)
+  await listCustomerAppointments(app)
 }

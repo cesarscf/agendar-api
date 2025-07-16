@@ -7,10 +7,10 @@ import type { ZodTypeProvider } from "fastify-type-provider-zod"
 import z from "zod"
 
 export async function getEmployeeRecurringBlocks(app: FastifyInstance) {
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .register(auth)
-    .get(
+  await app.register(async app => {
+    const typedApp = app.withTypeProvider<ZodTypeProvider>()
+    typedApp.register(auth)
+    typedApp.get(
       "/employees/:id/recurring-blocks",
       {
         schema: {
@@ -52,4 +52,5 @@ export async function getEmployeeRecurringBlocks(app: FastifyInstance) {
         return reply.send(blocks)
       }
     )
+  })
 }

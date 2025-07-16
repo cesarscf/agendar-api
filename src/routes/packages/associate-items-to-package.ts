@@ -14,13 +14,16 @@ const packageItemSchema = z.object({
 })
 
 const associatePackageItemsSchema = z.array(packageItemSchema)
+const associatePackageItemsSchemaWithPackageId = z.object({
+  items: associatePackageItemsSchema,
+})
 
 export async function associateItemsToPackage(app: FastifyInstance) {
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .register(auth)
-    .register(requireActiveSubscription)
-    .post(
+  await app.register(async app => {
+    const typedApp = app.withTypeProvider<ZodTypeProvider>()
+    typedApp.register(auth)
+    typedApp.register(requireActiveSubscription)
+    typedApp.post(
       "/packages/:packageId/items",
       {
         schema: {
@@ -31,18 +34,18 @@ export async function associateItemsToPackage(app: FastifyInstance) {
           params: z.object({
             packageId: z.string().uuid(),
           }),
-          body: associatePackageItemsSchema,
+          body: associatePackageItemsSchemaWithPackageId,
           response: {
             204: z.null(),
-            404: {
+            404: z.object({
               message: z.string(),
-            },
+            }),
           },
         },
       },
       async (request, reply) => {
         const { packageId } = request.params
-        const items = request.body
+        const { items } = request.body
 
         const { establishmentId } = await request.getCurrentEstablishmentId()
 
@@ -58,14 +61,15 @@ export async function associateItemsToPackage(app: FastifyInstance) {
         }
 
         await db.insert(packageItems).values(
-          items.map(item => ({
+          items.map(it => ({
             packageId,
-            serviceId: item.serviceId,
-            quantity: item.quantity,
+            serviceId: it.serviceId,
+            quantity: it.quantity,
           }))
         )
 
         return reply.status(204).send()
       }
     )
+  })
 }

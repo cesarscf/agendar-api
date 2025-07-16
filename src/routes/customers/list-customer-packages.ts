@@ -5,20 +5,22 @@ import {
   packages,
 } from "@/db/schema"
 import { customerAuth } from "@/middlewares/customer-auth"
+import { customerHeaderSchema } from "@/utils/schemas/headers"
 import { eq, sql } from "drizzle-orm"
 import type { FastifyInstance } from "fastify"
 import type { ZodTypeProvider } from "fastify-type-provider-zod"
 import z from "zod"
 
 export async function listCustomerPackages(app: FastifyInstance) {
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .register(customerAuth)
-    .get(
+  await app.register(async app => {
+    const typedApp = app.withTypeProvider<ZodTypeProvider>()
+    typedApp.register(customerAuth)
+    typedApp.get(
       "/me/packages",
       {
         schema: {
           tags: ["Customer"],
+          headers: customerHeaderSchema,
           summary: "Listar pacotes adquiridos pelo cliente",
           response: {
             200: z.array(
@@ -88,4 +90,5 @@ export async function listCustomerPackages(app: FastifyInstance) {
         )
       }
     )
+  })
 }

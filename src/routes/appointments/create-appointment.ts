@@ -7,6 +7,7 @@ import {
   services,
 } from "@/db/schema"
 import { customerAuth } from "@/middlewares/customer-auth"
+import { customerHeaderSchema } from "@/utils/schemas/headers"
 import { addMinutes, isAfter, isBefore } from "date-fns"
 import { and, eq, gt, lt } from "drizzle-orm"
 import type { FastifyInstance } from "fastify"
@@ -14,14 +15,15 @@ import type { ZodTypeProvider } from "fastify-type-provider-zod"
 import z from "zod"
 
 export async function createAppointment(app: FastifyInstance) {
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .register(customerAuth)
-    .post(
+  await app.register(async app => {
+    const typedApp = app.withTypeProvider<ZodTypeProvider>()
+    typedApp.register(customerAuth)
+    typedApp.post(
       "/appointments",
       {
         schema: {
           tags: ["Appointments"],
+          headers: customerHeaderSchema,
           summary: "Create a new appointment",
           body: z.object({
             employeeId: z.string().uuid(),
@@ -145,4 +147,5 @@ export async function createAppointment(app: FastifyInstance) {
         return reply.status(201).send({ id: appointment.id })
       }
     )
+  })
 }

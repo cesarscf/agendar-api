@@ -9,10 +9,10 @@ import type { ZodTypeProvider } from "fastify-type-provider-zod"
 import z from "zod"
 
 export async function getCustomers(app: FastifyInstance) {
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .register(auth)
-    .get(
+  await app.register(async app => {
+    const typedApp = app.withTypeProvider<ZodTypeProvider>()
+    typedApp.register(auth)
+    typedApp.get(
       "/customers",
       {
         schema: {
@@ -21,7 +21,7 @@ export async function getCustomers(app: FastifyInstance) {
           security: [{ bearerAuth: [] }],
           headers: establishmentHeaderSchema,
           response: {
-            201: z.array(customerSchema),
+            200: z.array(customerSchema),
           },
         },
       },
@@ -45,4 +45,5 @@ export async function getCustomers(app: FastifyInstance) {
         return reply.status(201).send(result)
       }
     )
+  })
 }

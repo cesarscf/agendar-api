@@ -9,10 +9,10 @@ import z from "zod"
 import { BadRequestError } from "../erros/bad-request-error"
 
 export async function deleteCategory(app: FastifyInstance) {
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .register(auth)
-    .delete(
+  await app.register(async app => {
+    const typedApp = app.withTypeProvider<ZodTypeProvider>()
+    typedApp.register(auth)
+    typedApp.delete(
       "/categories/:id",
       {
         schema: {
@@ -60,4 +60,5 @@ export async function deleteCategory(app: FastifyInstance) {
         return reply.status(204).send()
       }
     )
+  })
 }

@@ -9,10 +9,10 @@ import type { ZodTypeProvider } from "fastify-type-provider-zod"
 import z from "zod"
 
 export async function getCategories(app: FastifyInstance) {
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .register(auth)
-    .get(
+  await app.register(async app => {
+    const typedApp = app.withTypeProvider<ZodTypeProvider>()
+    typedApp.register(auth)
+    typedApp.get(
       "/categories",
       {
         schema: {
@@ -39,4 +39,5 @@ export async function getCategories(app: FastifyInstance) {
         return reply.status(201).send(result)
       }
     )
+  })
 }

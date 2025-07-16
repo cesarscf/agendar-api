@@ -17,11 +17,11 @@ const employeeServiceAssociationSchema = z.object({
 const associateServicesSchema = z.array(employeeServiceAssociationSchema)
 
 export async function associateServicesToEmployee(app: FastifyInstance) {
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .register(auth)
-    .register(requireActiveSubscription)
-    .post(
+  await app.register(async app => {
+    const typedApp = app.withTypeProvider<ZodTypeProvider>()
+    typedApp.register(auth)
+    typedApp.register(requireActiveSubscription)
+    typedApp.post(
       "/employees/:employeeId/services",
       {
         schema: {
@@ -35,9 +35,9 @@ export async function associateServicesToEmployee(app: FastifyInstance) {
           body: associateServicesSchema,
           response: {
             204: z.null(),
-            404: {
+            404: z.object({
               message: z.string(),
-            },
+            }),
           },
         },
       },
@@ -69,4 +69,5 @@ export async function associateServicesToEmployee(app: FastifyInstance) {
         return reply.status(204).send()
       }
     )
+  })
 }

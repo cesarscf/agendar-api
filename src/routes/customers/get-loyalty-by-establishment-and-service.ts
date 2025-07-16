@@ -5,6 +5,7 @@ import {
   loyaltyPrograms,
 } from "@/db/schema"
 import { customerAuth } from "@/middlewares/customer-auth"
+import { customerHeaderSchema } from "@/utils/schemas/headers"
 import { and, eq } from "drizzle-orm"
 import type { FastifyInstance } from "fastify"
 import type { ZodTypeProvider } from "fastify-type-provider-zod"
@@ -13,14 +14,15 @@ import { z } from "zod"
 export async function getLoyaltyByEstablishmentAndService(
   app: FastifyInstance
 ) {
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .register(customerAuth)
-    .get(
+  await app.register(async app => {
+    const typedApp = app.withTypeProvider<ZodTypeProvider>()
+    typedApp.register(customerAuth)
+    typedApp.get(
       "/loyalty/status",
       {
         schema: {
           tags: ["Loyalty"],
+          headers: customerHeaderSchema,
           summary: "Ver pontos acumulados e pontos do serviço",
           querystring: z.object({
             establishmentId: z.string().uuid(),
@@ -66,4 +68,5 @@ export async function getLoyaltyByEstablishmentAndService(
         })
       }
     )
+  })
 }
