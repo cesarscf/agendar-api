@@ -118,15 +118,15 @@ app.put("/fcm/register", async (request, reply) => {
   const existingToken = await db.query.fcmTokens.findFirst({
     where: eq(fcmTokens.userId, userId),
   })
-  if (existingToken) {
+  if (!existingToken) {
+    await db.insert(fcmTokens).values({ userId, token })
+  }
+  if (existingToken && existingToken.token !== token) {
     await db
       .update(fcmTokens)
       .set({ token })
       .where(eq(fcmTokens.userId, userId))
-    return reply.status(204).send()
   }
-  await db.insert(fcmTokens).values({ userId, token })
-
   return reply.status(204).send()
 })
 app.listen({ port: env.PORT, host: "0.0.0.0" }).then(() => {
