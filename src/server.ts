@@ -25,6 +25,7 @@ import { fastifyCors } from "@fastify/cors"
 import fastifyJwt from "@fastify/jwt"
 import { fastifySwagger } from "@fastify/swagger"
 import { fastifySwaggerUi } from "@fastify/swagger-ui"
+import { eq } from "drizzle-orm"
 import { fastify } from "fastify"
 import fastifyRawBody from "fastify-raw-body"
 import {
@@ -113,9 +114,20 @@ app.post("/fcm/register", async (request, reply) => {
   const { token, userId } = request.body as { token: string; userId: string }
 
   if (!token) return reply.status(400).send({ error: "Token ausente" })
+  if (!userId) return reply.status(400).send({ error: "User ID ausente" })
+  const existingToken = await db.query.fcmTokens.findFirst({
+    where: eq(fcmTokens.userId, userId),
+  })
+  if (existingToken) {
+    await db
+      .update(fcmTokens)
+      .set({ token })
+      .where(eq(fcmTokens.userId, userId))
+    return reply.status(204).send()
+  }
   await db.insert(fcmTokens).values({ userId, token })
 
-  return reply.status(200).send({ ok: true })
+  return reply.status(204).send()
 })
 app.listen({ port: env.PORT, host: "0.0.0.0" }).then(() => {
   console.log("HTTP server running!")
