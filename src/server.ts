@@ -110,7 +110,7 @@ app.register(adminLogin)
 app.register(servicesRoutes)
 app.register(publicRoutes, { prefix: "/public" })
 app.register(adminRoutes, { prefix: "/admin" })
-app.post("/fcm/register", async (request, reply) => {
+app.put("/fcm/register", async (request, reply) => {
   const { token, userId } = request.body as { token: string; userId: string }
 
   if (!token) return reply.status(400).send({ error: "Token ausente" })
