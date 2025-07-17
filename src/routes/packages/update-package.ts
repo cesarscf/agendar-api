@@ -2,6 +2,7 @@ import { db } from "@/db"
 import { packages } from "@/db/schema"
 import { auth } from "@/middlewares/auth"
 import { establishmentHeaderSchema } from "@/utils/schemas/headers"
+import { packageSchema } from "@/utils/schemas/packages"
 import { and, eq } from "drizzle-orm"
 import type { FastifyInstance } from "fastify"
 import type { ZodTypeProvider } from "fastify-type-provider-zod"
@@ -31,7 +32,7 @@ export async function updatePackage(app: FastifyInstance) {
             image: z.string().optional(),
           }),
           response: {
-            204: z.null(),
+            204: packageSchema,
           },
         },
       },
@@ -55,7 +56,7 @@ export async function updatePackage(app: FastifyInstance) {
           throw new BadRequestError("Package not found")
         }
 
-        await db
+        const [updatedPackage] = await db
           .update(packages)
           .set({
             ...data,
@@ -66,8 +67,21 @@ export async function updatePackage(app: FastifyInstance) {
               eq(packages.establishmentId, establishmentId)
             )
           )
+          .returning({
+            id: packages.id,
+            name: packages.name,
+            active: packages.active,
+            commission: packages.commission,
+            description: packages.description,
+            image: packages.image,
+            price: packages.price,
+          })
 
-        return reply.status(204).send()
+        if (!updatedPackage) {
+          throw new BadRequestError("Failed to update package")
+        }
+
+        return reply.status(204).send(updatedPackage)
       }
     )
   })
