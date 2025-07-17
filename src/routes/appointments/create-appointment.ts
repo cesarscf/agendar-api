@@ -178,21 +178,25 @@ export async function createAppointment(app: FastifyInstance) {
             "dd/MM 'às' HH:mm",
             { locale: ptBR }
           )
-
-          await messaging.send({
-            token: tokenRecord.token,
-            notification: {
-              title: `Novo agendamento em ${establishment.name}`,
-              body: `${customer.name} agendou ${service.name} para ${appointmentDateFormatted}.`,
-            },
-            data: {
-              establishmentId,
-              type: "new_appointment",
-              customerName: customer.name,
-              service: service.name,
-              date: appointment.date,
-            },
-          })
+          try {
+            await messaging.send({
+              token: tokenRecord.token,
+              notification: {
+                title: `Novo agendamento em ${establishment.name}`,
+                body: `${customer.name} agendou ${service.name} para ${appointmentDateFormatted}.`,
+              },
+              data: {
+                establishmentId,
+                type: "new_appointment",
+                customerName: customer.name,
+                service: service.name,
+                date: appointment.date,
+              },
+            })
+          } catch (err) {
+            request.log.error(err, "Erro ao enviar notificação FCM")
+            console.error(err, "Erro ao enviar notificação FCM")
+          }
         }
 
         return reply.status(201).send({ id: appointment.id })
