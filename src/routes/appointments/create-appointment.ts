@@ -1,14 +1,19 @@
+import { messaging } from "@/clients/firebase"
 import { db } from "@/db"
 import {
   appointments,
+  customers,
   employeeRecurringBlocks,
   employeeServices,
   employeeTimeBlocks,
+  establishments,
+  fcmTokens,
   services,
 } from "@/db/schema"
 import { customerAuth } from "@/middlewares/customer-auth"
 import { customerHeaderSchema } from "@/utils/schemas/headers"
-import { addMinutes, isAfter, isBefore } from "date-fns"
+import { addMinutes, format, isAfter, isBefore } from "date-fns"
+import { ptBR } from "date-fns/locale"
 import { and, eq, gt, lt } from "drizzle-orm"
 import type { FastifyInstance } from "fastify"
 import type { ZodTypeProvider } from "fastify-type-provider-zod"
@@ -28,7 +33,8 @@ export async function createAppointment(app: FastifyInstance) {
           body: z.object({
             employeeId: z.string().uuid(),
             serviceId: z.string().uuid(),
-            startTime: z.coerce.date(),
+            date: z.coerce.date(), // 👈 nova chave obrigatória no payload
+            startTime: z.coerce.date(), // continua sendo o horário com data completa
           }),
           response: {
             201: z.object({ id: z.string().uuid() }),
@@ -38,9 +44,24 @@ export async function createAppointment(app: FastifyInstance) {
         },
       },
       async (request, reply) => {
-        const { employeeId, serviceId, startTime } = request.body
+        const { employeeId, serviceId, date, startTime } = request.body
         const { customerId, establishmentId } =
           await request.getCurrentCustomerEstablishmentId()
+        const customer = await db.query.customers.findFirst({
+          where: eq(customers.id, customerId),
+        })
+        if (!customer) {
+          return reply.status(404).send({ message: "Cliente não encontrado" })
+        }
+        const establishment = await db.query.establishments.findFirst({
+          where: eq(establishments.id, establishmentId),
+        })
+
+        if (!establishment) {
+          return reply
+            .status(404)
+            .send({ message: "Estabelecimento não encontrado" })
+        }
 
         const relation = await db.query.employeeServices.findFirst({
           where: and(
@@ -57,12 +78,13 @@ export async function createAppointment(app: FastifyInstance) {
 
         const service = await db.query.services.findFirst({
           where: eq(services.id, serviceId),
-          columns: { durationInMinutes: true },
+          columns: { durationInMinutes: true, name: true },
         })
 
         if (!service) {
           return reply.status(400).send({ message: "Serviço inválido" })
         }
+        const formattedDate = format(date, "yyyy-MM-dd")
 
         const duration = service.durationInMinutes
         const endTime = addMinutes(startTime, duration)
@@ -74,7 +96,8 @@ export async function createAppointment(app: FastifyInstance) {
               eq(appointments.employeeId, employeeId),
               eq(appointments.establishmentId, establishmentId),
               lt(appointments.startTime, endTime),
-              gt(appointments.endTime, startTime)
+              gt(appointments.endTime, startTime),
+              eq(appointments.date, formattedDate)
             )
           )
           .limit(1)
@@ -140,9 +163,37 @@ export async function createAppointment(app: FastifyInstance) {
             customerId,
             startTime,
             endTime,
+            date: formattedDate,
             establishmentId,
           })
-          .returning({ id: appointments.id })
+          .returning({ id: appointments.id, date: appointments.date })
+
+        const tokenRecord = await db.query.fcmTokens.findFirst({
+          where: eq(fcmTokens.userId, establishmentId),
+        })
+
+        if (tokenRecord) {
+          const appointmentDateFormatted = format(
+            appointment.date,
+            "dd/MM 'às' HH:mm",
+            { locale: ptBR }
+          )
+
+          await messaging.send({
+            token: tokenRecord.token,
+            notification: {
+              title: `Novo agendamento em ${establishment.name}`,
+              body: `${customer.name} agendou ${service.name} para ${appointmentDateFormatted}.`,
+            },
+            data: {
+              establishmentId,
+              type: "new_appointment",
+              customerName: customer.name,
+              service: service.name,
+              date: appointment.date,
+            },
+          })
+        }
 
         return reply.status(201).send({ id: appointment.id })
       }

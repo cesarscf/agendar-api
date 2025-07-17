@@ -6,6 +6,7 @@ import { services } from "@/db/schema/services"
 import { relations } from "drizzle-orm"
 import {
   boolean,
+  date,
   decimal,
   pgEnum,
   pgTable,
@@ -51,6 +52,7 @@ export const appointments = pgTable("appointments", {
     .references(() => customers.id, { onDelete: "cascade" }),
   startTime: timestamp("start_time").notNull(),
   endTime: timestamp("end_time").notNull(),
+  date: date("date").notNull(),
   status: appointmentStatusEnum("status").notNull().default("scheduled"),
   checkin: boolean("checkin").notNull().default(false),
   checkinAt: timestamp("checkin_at"),
