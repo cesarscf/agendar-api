@@ -21,6 +21,8 @@ export async function createPartner(app: FastifyInstance) {
           name: z.string(),
           email: z.string().email(),
           password: z.string(),
+          state: z.string().nullable(),
+          city: z.string().nullable(),
         }),
         response: {
           201: z.object({
@@ -30,7 +32,7 @@ export async function createPartner(app: FastifyInstance) {
       },
     },
     async (request, reply) => {
-      const { email, password, name } = request.body
+      const { email, password, name, state, city } = request.body
       const formatedEmail = email.toLowerCase()
       const existingPartner = await db.query.partners.findFirst({
         where: eq(partners.email, formatedEmail),
@@ -54,6 +56,8 @@ export async function createPartner(app: FastifyInstance) {
           name,
           password: hashedPassword,
           email: formatedEmail,
+          state,
+          city,
         })
         .returning()
 

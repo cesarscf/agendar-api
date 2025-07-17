@@ -11,7 +11,8 @@ export const partners = pgTable("partners", {
   password: text("password").notNull(),
   email: text("email").notNull().unique(),
   integrationPaymentId: text("integration_payment_id").notNull().unique(),
-
+  state: text("state"),
+  city: text("city"),
   ...lifecycleDates,
 })
 

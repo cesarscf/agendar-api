@@ -9,4 +9,6 @@ export const customerSchema = z.object({
   address: z.string().nullable(),
   cpf: z.string().nullable(),
   notes: z.string().nullable(),
+  state: z.string().nullable(),
+  city: z.string().nullable(),
 })

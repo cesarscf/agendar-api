@@ -11,6 +11,8 @@ export const customers = pgTable("customers", {
   phoneNumber: text("phone_number").notNull(),
   cpf: text("cpf"),
   email: text("email"),
+  state: text("state"),
+  city: text("city"),
   address: text("address"),
   notes: text("notes"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
