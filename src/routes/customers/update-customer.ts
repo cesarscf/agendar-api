@@ -1,6 +1,7 @@
 import { db } from "@/db"
 import { customers } from "@/db/schema"
 import { auth } from "@/middlewares/auth"
+import { customerSchema } from "@/utils/schemas/customers"
 import { establishmentHeaderSchema } from "@/utils/schemas/headers"
 import { and, eq } from "drizzle-orm"
 import type { FastifyInstance } from "fastify"
@@ -21,15 +22,9 @@ export async function updateCustomer(app: FastifyInstance) {
           security: [{ bearerAuth: [] }],
           headers: establishmentHeaderSchema,
           params: z.object({
-            id: z.string().uuid(),
+            id: z.string(),
           }),
-          body: z.object({
-            name: z.string().optional(),
-            email: z.string().email().optional(),
-            phone: z.string().optional(),
-            address: z.string().optional(),
-            image: z.string().optional(),
-          }),
+          body: customerSchema.omit({ id: true }),
           response: {
             204: z.null(),
           },
@@ -62,7 +57,7 @@ export async function updateCustomer(app: FastifyInstance) {
           })
           .where(
             and(
-              eq(customers.id, customers),
+              eq(customers.id, customerId),
               eq(customers.establishmentId, establishmentId)
             )
           )

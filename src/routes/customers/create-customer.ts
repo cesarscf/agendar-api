@@ -22,7 +22,9 @@ export async function createCustomer(app: FastifyInstance) {
           headers: establishmentHeaderSchema,
           body: customerSchema.omit({ id: true }),
           response: {
-            204: z.null(),
+            201: z.object({
+              id: z.string(),
+            }),
           },
         },
       },
@@ -31,12 +33,15 @@ export async function createCustomer(app: FastifyInstance) {
 
         const data = request.body
 
-        await db.insert(customers).values({
-          ...data,
-          establishmentId,
-        })
+        const [createdCustomer] = await db
+          .insert(customers)
+          .values({
+            ...data,
+            establishmentId,
+          })
+          .returning({ id: customers.id })
 
-        return reply.status(204).send()
+        return reply.status(201).send(createdCustomer)
       }
     )
   })

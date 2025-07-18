@@ -1,46 +1,51 @@
 import { db } from "@/db"
-import { customers } from "@/db/schema"
+import { categories } from "@/db/schema"
 import { auth } from "@/middlewares/auth"
-import { customerSchema } from "@/utils/schemas/customers"
+import { categorySchema } from "@/utils/schemas/categories"
 import { establishmentHeaderSchema } from "@/utils/schemas/headers"
-import { eq } from "drizzle-orm"
+
+import { and, eq } from "drizzle-orm"
 import type { FastifyInstance } from "fastify"
 import type { ZodTypeProvider } from "fastify-type-provider-zod"
 import z from "zod"
 import { BadRequestError } from "../erros/bad-request-error"
 
-export async function getCustomer(app: FastifyInstance) {
+export async function getCategory(app: FastifyInstance) {
   await app.register(async app => {
     const typedApp = app.withTypeProvider<ZodTypeProvider>()
     typedApp.register(auth)
     typedApp.get(
-      "/customers/:id",
+      "/categories/:id",
       {
         schema: {
-          tags: ["Customer"],
-          summary: "Get establishment customer by id",
+          tags: ["Category"],
+          summary: "Get establishment category by id",
           security: [{ bearerAuth: [] }],
           headers: establishmentHeaderSchema,
           params: z.object({
             id: z.string().uuid(),
           }),
           response: {
-            201: customerSchema,
+            200: categorySchema,
           },
         },
       },
       async (request, reply) => {
         const { establishmentId } = await request.getCurrentEstablishmentId()
+        const { id: categoryId } = request.params
 
-        const result = await db.query.customers.findFirst({
-          where: eq(customers.establishmentId, establishmentId),
+        const data = await db.query.categories.findFirst({
+          where: and(
+            eq(categories.id, categoryId),
+            eq(categories.establishmentId, establishmentId)
+          ),
         })
 
-        if (!result) {
-          throw new BadRequestError("Customer not found")
+        if (!data) {
+          throw new BadRequestError("Category not found")
         }
 
-        return reply.status(201).send(result)
+        return reply.status(200).send(data)
       }
     )
   })
