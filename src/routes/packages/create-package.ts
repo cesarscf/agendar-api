@@ -22,7 +22,7 @@ export async function createPackage(app: FastifyInstance) {
           headers: establishmentHeaderSchema,
           body: packageSchema.omit({ id: true }),
           response: {
-            204: packageSchema,
+            201: packageSchema,
           },
         },
       },
@@ -51,7 +51,7 @@ export async function createPackage(app: FastifyInstance) {
           throw new BadRequestError("Failed to create package")
         }
 
-        return reply.status(204).send(createdPackage)
+        return reply.status(201).send(createdPackage)
       }
     )
   })

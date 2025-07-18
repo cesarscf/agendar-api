@@ -60,6 +60,10 @@ export async function associateItemsToPackage(app: FastifyInstance) {
           return reply.status(404).send({ message: "Package not found" })
         }
 
+        await db
+          .delete(packageItems)
+          .where(eq(packageItems.packageId, packageId))
+
         await db.insert(packageItems).values(
           items.map(it => ({
             packageId,

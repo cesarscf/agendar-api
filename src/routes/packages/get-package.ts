@@ -2,7 +2,7 @@ import { db } from "@/db"
 import { packages } from "@/db/schema"
 import { auth } from "@/middlewares/auth"
 import { establishmentHeaderSchema } from "@/utils/schemas/headers"
-import { packageSchema } from "@/utils/schemas/packages"
+import { packageSchemaWithItems } from "@/utils/schemas/packages"
 import { eq } from "drizzle-orm"
 import type { FastifyInstance } from "fastify"
 import type { ZodTypeProvider } from "fastify-type-provider-zod"
@@ -25,7 +25,7 @@ export async function getPackage(app: FastifyInstance) {
             id: z.string().uuid(),
           }),
           response: {
-            201: packageSchema,
+            200: packageSchemaWithItems,
           },
         },
       },
@@ -45,6 +45,9 @@ export async function getPackage(app: FastifyInstance) {
           },
           with: {
             packageItems: {
+              columns: {
+                quantity: true,
+              },
               with: {
                 service: {
                   columns: {
@@ -62,7 +65,16 @@ export async function getPackage(app: FastifyInstance) {
           throw new BadRequestError("Package not found")
         }
 
-        return reply.status(201).send(result)
+        const formatted = {
+          ...result,
+          items: result.packageItems?.map(item => ({
+            serviceId: item.service.id,
+            name: item.service.name,
+            quantity: item.quantity,
+          })),
+        }
+
+        return reply.status(200).send(formatted)
       }
     )
   })
