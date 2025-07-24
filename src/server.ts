@@ -48,6 +48,8 @@ const app = fastify({
 app.setSerializerCompiler(serializerCompiler)
 app.setValidatorCompiler(validatorCompiler)
 
+app.setErrorHandler(errorHandler)
+
 app.register(fastifyCors)
 app.register(fastifySwagger, {
   openapi: {

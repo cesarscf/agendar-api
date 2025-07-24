@@ -1,6 +1,6 @@
 import { db } from "@/db"
 import { subscriptions } from "@/db/schema"
-import { ForbiddenError } from "@/routes/erros/forbidden-request-error"
+import { ForbiddenError } from "@/routes/_erros/forbidden-request-error"
 import { eq } from "drizzle-orm"
 import { desc } from "drizzle-orm"
 import type { FastifyInstance } from "fastify"

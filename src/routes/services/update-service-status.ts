@@ -6,7 +6,7 @@ import { and, eq } from "drizzle-orm"
 import type { FastifyInstance } from "fastify"
 import type { ZodTypeProvider } from "fastify-type-provider-zod"
 import z from "zod"
-import { BadRequestError } from "../erros/bad-request-error"
+import { BadRequestError } from "../_erros/bad-request-error"
 
 export async function UpdateServiceStatus(app: FastifyInstance) {
   await app.register(async app => {

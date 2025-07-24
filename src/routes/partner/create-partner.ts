@@ -1,7 +1,7 @@
 import { stripe } from "@/clients/stripe"
 import { db } from "@/db"
 import { establishments, partners } from "@/db/schema"
-import { BadRequestError } from "@/routes/erros/bad-request-error"
+import { BadRequestError } from "@/routes/_erros/bad-request-error"
 import { generateRandomString } from "@/utils/generate-random-string"
 import { slugify } from "@/utils/slug"
 import bcrypt from "bcrypt"
@@ -21,8 +21,8 @@ export async function createPartner(app: FastifyInstance) {
           name: z.string(),
           email: z.string().email(),
           password: z.string(),
-          state: z.string().nullable(),
-          city: z.string().nullable(),
+          state: z.string().optional(),
+          city: z.string().optional(),
         }),
         response: {
           201: z.object({
@@ -33,13 +33,14 @@ export async function createPartner(app: FastifyInstance) {
     },
     async (request, reply) => {
       const { email, password, name, state, city } = request.body
+
       const formatedEmail = email.toLowerCase()
       const existingPartner = await db.query.partners.findFirst({
         where: eq(partners.email, formatedEmail),
       })
 
       if (existingPartner) {
-        throw new BadRequestError("Usuário não encontrado")
+        throw new BadRequestError("Este usuário já está registrado")
       }
 
       const customerPayment = await stripe.customers.create({

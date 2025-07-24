@@ -6,7 +6,7 @@ import { packageSchema } from "@/utils/schemas/packages"
 import type { FastifyInstance } from "fastify"
 import type { ZodTypeProvider } from "fastify-type-provider-zod"
 
-import { BadRequestError } from "../erros/bad-request-error"
+import { BadRequestError } from "../_erros/bad-request-error"
 
 export async function createPackage(app: FastifyInstance) {
   await app.register(async app => {

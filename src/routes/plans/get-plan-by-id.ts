@@ -34,11 +34,14 @@ export async function getPlanById(app: FastifyInstance) {
     async (request, reply) => {
       const { id } = request.params
 
+      console.log({ id })
       const plan = await db
         .select()
         .from(plans)
         .where(eq(plans.id, id))
         .then(res => res[0])
+
+      console.log({ plan })
 
       if (!plan) {
         return reply.status(404).send({ message: "Plan not found" })
