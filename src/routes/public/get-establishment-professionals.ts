@@ -18,7 +18,7 @@ export async function getEstablishmentProfessionals(app: FastifyInstance) {
             z.object({
               id: z.string(),
               name: z.string(),
-              avatarUrl: z.string().url().nullable(),
+              avatarUrl: z.string().nullable(),
               biography: z.string().nullable(),
             })
           ),

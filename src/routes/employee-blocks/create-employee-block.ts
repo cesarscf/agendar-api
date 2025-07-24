@@ -1,5 +1,5 @@
 import { db } from "@/db"
-import { employeeTimeBlocks } from "@/db/schema"
+import { employeeTimeBlocks, employees } from "@/db/schema" // importando employees
 import { auth } from "@/middlewares/auth"
 import { and, eq, gt, lt } from "drizzle-orm"
 import type { FastifyInstance } from "fastify"
@@ -32,6 +32,7 @@ export async function createEmployeeBlock(app: FastifyInstance) {
         },
       },
       async (request, reply) => {
+        console.log(request.body)
         const { id: employeeId } = request.params
         const { startsAt, endsAt, reason } = request.body
         const { establishmentId } = await request.getCurrentEstablishmentId()
@@ -43,12 +44,13 @@ export async function createEmployeeBlock(app: FastifyInstance) {
         }
 
         const employee = await db.query.employees.findFirst({
-          where: eq(employeeTimeBlocks.employeeId, employeeId),
+          where: eq(employees.id, employeeId),
         })
 
         if (!employee || employee.establishmentId !== establishmentId) {
           return reply.status(403).send({ message: "Unauthorized" })
         }
+
         const conflictingBlock = await db
           .select()
           .from(employeeTimeBlocks)

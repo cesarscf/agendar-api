@@ -64,13 +64,15 @@ export async function associateItemsToPackage(app: FastifyInstance) {
           .delete(packageItems)
           .where(eq(packageItems.packageId, packageId))
 
-        await db.insert(packageItems).values(
-          items.map(it => ({
-            packageId,
-            serviceId: it.serviceId,
-            quantity: it.quantity,
-          }))
-        )
+        if (items.length > 0) {
+          await db.insert(packageItems).values(
+            items.map(it => ({
+              packageId,
+              serviceId: it.serviceId,
+              quantity: it.quantity,
+            }))
+          )
+        }
 
         return reply.status(204).send()
       }
