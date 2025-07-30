@@ -21,6 +21,7 @@ import { servicesRoutes } from "@/routes/services"
 import { subscriptionRoutes } from "@/routes/subscription"
 import { stripeWebhook } from "@/routes/subscription/stripe-webhook"
 import { errorHandler } from "@/utils/error-handler"
+import fastifyCookie from "@fastify/cookie"
 import { fastifyCors } from "@fastify/cors"
 import fastifyJwt from "@fastify/jwt"
 import { fastifySwagger } from "@fastify/swagger"
@@ -81,6 +82,14 @@ app.register(fastifySwaggerUi, {
   routePrefix: "/docs",
 })
 app.register(fastifyJwt, {
+  secret: env.JWT_SECRET,
+  cookie: {
+    cookieName: "token",
+    signed: true,
+  },
+})
+
+app.register(fastifyCookie, {
   secret: env.JWT_SECRET,
 })
 

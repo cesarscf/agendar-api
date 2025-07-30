@@ -33,12 +33,20 @@ export async function adminLogin(app: FastifyInstance) {
       if (!admin) throw new UnauthorizedError("Credências inválidas")
       const valid = await bcrypt.compare(password, admin.password)
       if (!valid) throw new UnauthorizedError("Credências inválidas")
+
       const token = await reply.jwtSign(
         { sub: admin.id, role: admin.role },
         {
           sign: { expiresIn: "7d" },
         }
       )
+
+      reply.setCookie("token", token, {
+        path: "/",
+        httpOnly: true,
+        maxAge: 60 * 60 * 24 * 7, // 7 dias
+      })
+
       return { token }
     }
   )

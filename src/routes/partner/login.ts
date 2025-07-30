@@ -60,6 +60,12 @@ export async function login(app: FastifyInstance) {
         }
       )
 
+      reply.setCookie("token", token, {
+        path: "/",
+        httpOnly: true,
+        maxAge: 60 * 60 * 24 * 7, // 7 dias
+      })
+
       return reply.status(201).send({ token })
     }
   )
