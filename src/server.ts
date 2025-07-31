@@ -49,9 +49,23 @@ const app = fastify({
 app.setSerializerCompiler(serializerCompiler)
 app.setValidatorCompiler(validatorCompiler)
 
-app.setErrorHandler(errorHandler)
+app.register(fastifyCors, {
+  origin: "http://localhost:3000",
+  credentials: true,
+})
 
-app.register(fastifyCors)
+app.register(fastifyCookie, {
+  secret: env.JWT_SECRET,
+})
+
+app.register(fastifyJwt, {
+  secret: env.JWT_SECRET,
+  cookie: {
+    cookieName: "token",
+    signed: true,
+  },
+})
+
 app.register(fastifySwagger, {
   openapi: {
     openapi: "3.0.1",
@@ -78,19 +92,9 @@ app.register(fastifyRawBody, {
   encoding: false,
   runFirst: true,
 })
+
 app.register(fastifySwaggerUi, {
   routePrefix: "/docs",
-})
-app.register(fastifyJwt, {
-  secret: env.JWT_SECRET,
-  cookie: {
-    cookieName: "token",
-    signed: true,
-  },
-})
-
-app.register(fastifyCookie, {
-  secret: env.JWT_SECRET,
 })
 
 app.get("/health", async () => {

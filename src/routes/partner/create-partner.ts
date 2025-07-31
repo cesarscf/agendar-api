@@ -84,6 +84,15 @@ export async function createPartner(app: FastifyInstance) {
         }
       )
 
+      reply.setCookie("token", token, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax",
+        path: "/",
+        signed: true,
+        maxAge: 60 * 60 * 24 * 7, // 7
+      })
+
       return reply.status(201).send({ token })
     }
   )
